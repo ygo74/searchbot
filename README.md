@@ -1,6 +1,6 @@
 # searchbot
 
-**Welcome to Our Research Project - Enhancing Productivity with AI and LLM Language Model**
+**Welcome to search bot Project - Enhancing enterprise search with AI and LLM Language Model**
 
 License : ![License](https://img.shields.io/github/license/ygo74/searchbot)
 
