@@ -6,7 +6,7 @@ License : ![License](https://img.shields.io/github/license/ygo74/searchbot)
 
 ## Context
 
-Research within the enterprise plays a fundamental role in improving the work of employees. However, in the age of numerous information sources, this task has become complex. Finding the right information at the right time is a challenge that can hinder the productivity of our colleagues.
+Research within the enterprise plays a fundamental role in improving the work of employees. However, in the age of numerous information sources, this task has become complex. Finding the right information at the right time is a challenge that can elevate the enterprise's capabilities, making it more efficient and setting it apart from competitors.
 
 ## Research Objective
 
