@@ -26,4 +26,8 @@ has_children: true
 
 - https://learn.microsoft.com/en-us/training/modules/build-faq-chatbot-qna-maker-azure-bot-service/
 
-  - https://microsoftlearning.github.io/mslearn-ai-fundamentals/Instructions/Labs/07-question-answering.html
+- https://microsoftlearning.github.io/mslearn-ai-fundamentals/Instructions/Labs/07-question-answering.html
+
+## Semantic-Kernel
+
+- <https://github.com/microsoft/semantic-kernel>

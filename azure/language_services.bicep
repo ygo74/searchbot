@@ -166,3 +166,4 @@ resource accounts_ls_poc_keyphrase_name_resource 'Microsoft.CognitiveServices/ac
     publicNetworkAccess: 'Enabled'
   }
 }
+
