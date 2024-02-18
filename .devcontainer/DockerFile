@@ -1,0 +1,26 @@
+
+FROM node:14-alpine as builder_venv_drant
+
+RUN apk update && apk upgrade \
+    && apk add --no-cache --virtual .pipeline-deps readline linux-pam \
+    && apk add bash sudo shadow \
+    && apk add bash py3-pip \
+    && apk add --virtual=build gcc libffi-dev musl-dev openssl-dev python3-dev make
+
+# Create the venv
+RUN python -m venv /opt/venv
+
+# Activate the venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+RUN pip --no-cache-dir install -U pip \
+    && pip install -r https://raw.githubusercontent.com/ygo74/searchbot/qdrant/requirements.txt
+
+
+# Images
+FROM mcr.microsoft.com/devcontainers/universal:2
+
+COPY --from=builder_venv_drant /opt/venv /opt/qdrant_linux_venv
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONBUFFERED=1

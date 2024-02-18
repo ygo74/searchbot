@@ -20,6 +20,7 @@ docker run -p 6333:6333 -p 6334:6334 \
 docker pull qdrant/qdrant
 ```
 
+url : http://localhost:6333/dashboard
 
 ## Get started
 
