@@ -26,3 +26,13 @@ Tokenizing is breaking down a sentence into smaller pieces called "tokens". Thes
 ## Sources
 
 - Transformers : <https://colab.research.google.com/github/qdrant/examples/blob/master/qdrant_101_text_data/qdrant_and_text_data.ipynb#scrollTo=dbPGdticPWio>
+
+## Cuda wsl
+
+<https://learn.microsoft.com/fr-fr/windows/ai/directml/gpu-cuda-in-wsl>
+<https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=WSL-Ubuntu&target_version=2.0&target_type=deb_network>
+
+wget https://developer.download.nvidia.com/compute/cuda/repos/wsl-ubuntu/x86_64/cuda-keyring_1.1-1_all.deb
+sudo dpkg -i cuda-keyring_1.1-1_all.deb
+sudo apt-get update
+sudo apt-get -y install cuda-toolkit-12-3
