@@ -1,0 +1,23 @@
+{
+  "build":
+  {
+      "dockerfile": "DockerFile"
+  },
+  "customizations": {
+    "codespaces": {
+      "openFiles": []
+    },
+    "vscode": {
+      "extensions": [
+        "ms-dotnettools.vscode-dotnet-pack",
+        "ms-dotnettools.dotnet-interactive-vscode",
+        "ms-toolsai.jupyter",
+        "ms-python.python",
+        "ms-azuretools.vscode-docker"
+      ],
+      "settings": {
+        "files.trimTrailingWhitespace": false
+      }
+    }
+  }
+}
