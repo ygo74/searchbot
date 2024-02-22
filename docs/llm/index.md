@@ -36,3 +36,35 @@ wget https://developer.download.nvidia.com/compute/cuda/repos/wsl-ubuntu/x86_64/
 sudo dpkg -i cuda-keyring_1.1-1_all.deb
 sudo apt-get update
 sudo apt-get -y install cuda-toolkit-12-3
+
+
+``` bash
+docker run -it --rm --gpus all ubuntu nvidia-smi
+
+Thu Feb 22 04:30:15 2024
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 470.223.02   Driver Version: 474.64       CUDA Version: 11.4     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  NVIDIA GeForce ...  Off  | 00000000:01:00.0 N/A |                  N/A |
+|ERR!    0C    P8    N/A /  N/A |    351MiB /  3072MiB |     N/A      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+
++-----------------------------------------------------------------------------+
+| Processes:                                                                  |
+|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+|        ID   ID                                                   Usage      |
+|=============================================================================|
+|  No running processes found                                                 |
++-----------------------------------------------------------------------------+
+```
+
+
+``` bash
+# https://pytorch.org/get-started/previous-versions/
+pip install torch==2.1.2 torchvision==0.16.2 torchaudio==2.1.2 --index-url https://download.pytorch.org/whl/cu118
+```
