@@ -1,1 +1,3 @@
 **/*_linux_venv*
+**/*.pth
+**/pytorch/data/*

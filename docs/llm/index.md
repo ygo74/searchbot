@@ -68,3 +68,21 @@ Thu Feb 22 04:30:15 2024
 # https://pytorch.org/get-started/previous-versions/
 pip install torch==2.1.2 torchvision==0.16.2 torchaudio==2.1.2 --index-url https://download.pytorch.org/whl/cu118
 ```
+
+
+## Prompts customization
+
+### With ollama
+
+``` DockerFile
+FROM phi
+
+# set the temperature to 1 [higher is more creative, lower is more coherent]
+PARAMETER temperature 1
+
+# set the system message
+SYSTEM """
+You are an Infrastructure engineer with a lot of experience in .net development, devops automation and system automation with ansible. Answer as an Infrastructure engineer, the assistant, only.
+"""
+
+```
