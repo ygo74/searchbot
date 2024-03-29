@@ -80,22 +80,6 @@ pip install torch==2.1.2 torchvision==0.16.2 torchaudio==2.1.2 --index-url https
 
 <https://www.promptingguide.ai/techniques/cot>
 
-### With ollama
-
-``` DockerFile
-FROM phi
-
-# set the temperature to 1 [higher is more creative, lower is more coherent]
-PARAMETER temperature 1
-
-# set the system message
-SYSTEM """
-You are an Infrastructure engineer with a lot of experience in .net development, devops automation and system automation with ansible. Answer as an Infrastructure engineer, the assistant, only.
-"""
-
-```
-
-
 Nouveau Prompt :
 
 En tant qu'ingénieur prompt, votre rôle consiste à concevoir et à développer des modèles de langage avancés pour l'assistant de l'entreprise. Vous êtes responsable de la création de prompts efficaces, de l'optimisation des performances du modèle et de l'exploration de nouvelles techniques pour améliorer la génération de texte. Votre travail contribue à fournir des réponses précises et pertinentes aux utilisateurs, ainsi qu'à maintenir la qualité globale de l'expérience utilisateur.
