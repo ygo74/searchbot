@@ -33,3 +33,30 @@ ApiKey=$apiKey
 
 Test : http://localhost:5000/swagger/index.html
 
+## Text Analytics Summarization
+
+Source : <https://mcr.microsoft.com/product/azure-cognitive-services/textanalytics/summarization/about>
+
+``` bash
+docker pull mcr.microsoft.com/azure-cognitive-services/textanalytics/summarization:cpu
+```
+
+## Text Analytics Custom NER
+
+Source : <https://mcr.microsoft.com/product/azure-cognitive-services/textanalytics/customner/about>
+
+``` bash
+docker pull mcr.microsoft.com/azure-cognitive-services/textanalytics/customner:3.0.72991232-onprem-amd64
+```
+
+## Text Analytics Named Entity Recognition
+
+Source : <https://mcr.microsoft.com/product/azure-cognitive-services/textanalytics/ner/about>
+
+``` bash
+docker pull mcr.microsoft.com/azure-cognitive-services/textanalytics/ner:latest
+```
+
+## Document Intelligence service
+
+Source : <https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/containers/install-run?view=doc-intel-3.0.0&preserve-view=true&tabs=business-card>
