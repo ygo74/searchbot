@@ -2,3 +2,4 @@
 **/vLLM_venv*
 **/*.pth
 **/pytorch/data/*
+**/.env

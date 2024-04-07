@@ -60,3 +60,17 @@ docker pull mcr.microsoft.com/azure-cognitive-services/textanalytics/ner:latest
 ## Document Intelligence service
 
 Source : <https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/containers/install-run?view=doc-intel-3.0.0&preserve-view=true&tabs=business-card>
+
+
+``` bash
+# Read
+ docker pull mcr.microsoft.com/azure-cognitive-services/form-recognizer/read-3.0
+
+
+# General
+docker pull mcr.microsoft.com/azure-cognitive-services/form-recognizer/document-3.0
+
+# Layout
+docker pull mcr.microsoft.com/azure-cognitive-services/form-recognizer/layout-3.0
+
+```
