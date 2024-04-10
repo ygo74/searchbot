@@ -1,6 +1,8 @@
 from dotenv import load_dotenv
 import os
+import autogen
 from autogen import ConversableAgent
+from modules.logging import *
 
 def main():
 
@@ -9,6 +11,10 @@ def main():
         load_dotenv()
         ai_endpoint = os.getenv('AZURE_OPENAI_API_ENDPOINT')
         ai_key = os.getenv('AZURE_OPENAI_API_KEY')
+
+        # Start logging
+        logging_session_id = autogen.runtime_logging.start(config={"dbname": "logs.db"})
+        print("Logging session ID: " + str(logging_session_id))
 
         # Define LLM Config list
         llm_config_list = {
@@ -38,6 +44,14 @@ def main():
         )
 
         result = joe.initiate_chat(cathy, message="Cathy, tell me a joke.", max_turns=2)
+
+        autogen.runtime_logging.stop()
+
+        # Write logs
+        log_data = get_log()
+        log_data_df = parse_detailed_logs(log_data)
+        write_detailed_logs(log_data_df)
+        write_summarized_logs(log_data_df, logging_session_id)
 
     except Exception as ex:
         print(ex)

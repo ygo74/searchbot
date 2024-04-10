@@ -3,3 +3,8 @@
 **/*.pth
 **/pytorch/data/*
 **/.env
+**/.cache
+**/tmp
+**/.cache/**
+**/__pycache__/**
+**/logs.db

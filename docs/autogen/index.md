@@ -5,6 +5,9 @@ nav_order: 2
 has_children: true
 ---
 
+others
+https://github.com/microsoft/promptflow
+
 ## Web site
 
 - <https://microsoft.github.io/autogen/>
@@ -16,6 +19,8 @@ source ./linux_venv/bin/activate
 
 pip install pyautogen
 pip install python-dotenv
+
+pip install pyautogen[retrievechat]
 
 ## LLM Configuration
 
@@ -32,3 +37,22 @@ pip install python-dotenv
         }
     ]
     ```
+
+## Autogen studio
+
+https://github.com/microsoft/autogen/blob/main/samples/apps/autogen-studio/README.md
+
+pip install autogenstudio
+autogenstudio ui --port 8081
+
+
+## Samples
+
+- GPT-researchers
+
+    <https://www.youtube.com/watch?v=AVInhYBUnKs>
+    <https://github.com/evagency/research-agents/blob/main/app.py>
+
+- Group chat research
+
+    <https://microsoft.github.io/autogen/docs/notebooks/agentchat_groupchat_research>
