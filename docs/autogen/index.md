@@ -46,6 +46,26 @@ pip install autogenstudio
 autogenstudio ui --port 8081
 
 
+## Web search
+
+Source :
+
+- <https://console.cloud.google.com/apis/>
+
+  Custom Search API
+
+  ``` bash
+  cx=
+  key=
+  term=
+
+  curl \
+  'https://customsearch.googleapis.com/customsearch/v1?cx=$cx&q=$term&key=$key' \
+  --header 'Accept: application/json' \
+  --compressed
+
+  ```
+
 ## Samples
 
 - GPT-researchers
@@ -56,3 +76,5 @@ autogenstudio ui --port 8081
 - Group chat research
 
     <https://microsoft.github.io/autogen/docs/notebooks/agentchat_groupchat_research>
+
+
