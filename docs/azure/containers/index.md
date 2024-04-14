@@ -64,7 +64,10 @@ Source : <https://learn.microsoft.com/en-us/azure/ai-services/document-intellige
 
 ``` bash
 # Read
- docker pull mcr.microsoft.com/azure-cognitive-services/form-recognizer/read-3.0
+pip install python-dotenv
+pip install azure-ai-formrecognizer
+
+docker pull mcr.microsoft.com/azure-cognitive-services/form-recognizer/read-3.0
 
 
 # General

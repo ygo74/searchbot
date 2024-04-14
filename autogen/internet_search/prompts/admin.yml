@@ -1,0 +1,5 @@
+---
+assistant_name: admin
+prompt: >
+  A human admin. Interact with the planner to discuss the plan. Plan execution needs to be approved by this admin
+temperature: 0

@@ -46,6 +46,10 @@ pip install autogenstudio
 autogenstudio ui --port 8081
 
 
+## Autogen playground in huggingface
+
+https://huggingface.co/spaces/thinkall/AutoGen_Playground
+
 ## Web search
 
 Source :
