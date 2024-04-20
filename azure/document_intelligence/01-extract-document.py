@@ -12,14 +12,14 @@ print(endpoint)
 print(key)
 # raise Exception("stop")
 
-path_to_sample_documents="/mnt/d/OneDrive/Documents/CI-Versioning.pptx"
+path_to_sample_documents="/mnt/c/Users/Administrator/Documents/repas.pdf"
 
 document_analysis_client = DocumentAnalysisClient(
-    endpoint=endpoint, credential=AzureKeyCredential(key)
+    endpoint=endpoint, credential=AzureKeyCredential(key), api_version="2022-08-31"
 )
 with open(path_to_sample_documents, "rb") as f:
     poller = document_analysis_client.begin_analyze_document(
-        "prebuilt-document", document=f
+        "prebuilt-read", document=f
     )
 result = poller.result()
 

@@ -22,6 +22,14 @@ has_children: true
   ollama start
   ```
 
+### Ollama on WSL
+
+1. Install
+
+  ``` bash
+  curl https://ollama.ai/install.sh | sh
+
+  ```
 
 ## Interacting with model
 

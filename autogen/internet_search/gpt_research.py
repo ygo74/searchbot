@@ -53,7 +53,7 @@ def main():
 
     try:
         # Get Configuration Settings
-        load_dotenv("/mnt/d/devel/github/searchbot/autogen/.env")
+        load_dotenv("/mnt/c/devel/searchbot/autogen/.env")
         ai_endpoint = os.getenv('AZURE_OPENAI_API_ENDPOINT')
         ai_key = os.getenv('AZURE_OPENAI_API_KEY')
         google_key = os.getenv('GOOGLE_SEARCH_API_KEY')
@@ -101,7 +101,7 @@ def main():
         gpt3_config = {
             "cache_seed": 42,  # change the cache_seed for different trials
             "temperature": 0,
-            "config_list": llm_config_list[1],
+            "config_list": llm_config_lits_gpt3,
             "timeout": 120,
         }
 
@@ -199,22 +199,48 @@ def main():
         # manager = autogen.GroupChatManager(groupchat=groupchat, llm_config=gpt4_config)
 
         user_proxy = autogen.UserProxyAgent(
-            name="Admin",
-            system_message="A human admin. Interact with the researcher_manager to specify the goal of research.",
+            name=prompts[ "admin" ][ "assistant_name" ],
+            system_message=prompts[ "admin" ][ "prompt" ],
             code_execution_config=False,
         )
 
+        planner = autogen.AssistantAgent(
+            name=prompts[ "planner" ][ "assistant_name" ],
+            llm_config={
+                "cache_seed": 42,  # change the cache_seed for different trials
+                "temperature": prompts[ "planner" ][ "temperature" ],
+                "config_list": llm_config_lits_gpt3,
+                "timeout": 120,
+            },
+            system_message=prompts[ "planner" ][ "prompt" ],
+            description="This is the planner agent"
+        )
 
         researcher_manager = autogen.AssistantAgent(
             name=prompts[ "researcher_manager" ][ "assistant_name" ],
-            llm_config=gpt4_config,
+            llm_config=gpt3_config,
             system_message=prompts[ "researcher_manager" ][ "prompt" ],
+            human_input_mode="ALWAYS",  # Never ask for human input.
+            description="This is the researcher_manager agent"
         )
 
         researcher = autogen.AssistantAgent(
             name=prompts[ "researcher" ][ "assistant_name" ],
             llm_config=gpt4_config,
             system_message=prompts[ "researcher" ][ "prompt" ],
+            description="This is the researcher agent"
+        )
+
+        scientist = autogen.AssistantAgent(
+            name=prompts[ "scientist" ][ "assistant_name" ],
+            llm_config={
+                "cache_seed": 42,  # change the cache_seed for different trials
+                "temperature": prompts[ "scientist" ][ "temperature" ],
+                "config_list": llm_config_lits_gpt3,
+                "timeout": 120,
+            },
+            system_message=prompts[ "scientist" ][ "prompt" ],
+            description="This is the scientist agent"
         )
 
         executor = autogen.UserProxyAgent(
@@ -228,6 +254,16 @@ def main():
             },  # Please set use_docker=True if docker is available to run the generated code. Using docker is safer than running the generated code directly.
         )
 
+        critic = autogen.AssistantAgent(
+            name=prompts[ "critic" ][ "assistant_name" ],
+            system_message=prompts[ "critic" ][ "prompt" ],
+            llm_config={
+                "temperature": prompts[ "critic" ][ "temperature" ],
+                "config_list": llm_config_lits_gpt3,
+            },
+            description="This is the critic agent"
+        )
+
         register_function(
             search_internet,
             caller=researcher,
@@ -237,15 +273,25 @@ def main():
 
 
         groupchat = autogen.GroupChat(
-            agents=[user_proxy, researcher, researcher_manager, executor], messages=[], max_round=50
+            # agents=[user_proxy, planner, scientist, researcher, researcher_manager, executor], messages=[], max_round=50
+            agents=[user_proxy, planner, critic ],
+            messages=[
+                "Start to work with the planner"
+            ], max_round=50
         )
-        group_chat_manager  = autogen.GroupChatManager(groupchat=groupchat, llm_config=gpt4_config)
+        group_chat_manager  = autogen.GroupChatManager(groupchat=groupchat, llm_config=gpt3_config)
 
 
         user_proxy.initiate_chat(
             group_chat_manager ,
+            # message="""
+            # find contribution for code from Yannick GOBERT a devops engineer on internet, he can be known with his alias ygo or ygo74
+            # """,
             message="""
-            find contribution for code from Yannick GOBERT a devops engineer on internet, he can be known with his alias ygo or ygo74
+            I want to hire a new employee, I need to know if this person can fit with my objectives to develop a dotnet microservices application.
+            This application will follow Domain driven Design approach, It uses Graphql, fluentvalidation, mediator libraries.
+            It is deployed on Azure Kubernetes servies.
+            Can you confirm that Yannick GOBERT fits this role ?
             """,
         )
 

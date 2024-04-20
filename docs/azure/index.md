@@ -31,3 +31,12 @@ has_children: true
 ## Semantic-Kernel
 
 - <https://github.com/microsoft/semantic-kernel>
+
+
+## Get started
+
+source : <https://learn.microsoft.com/en-us/python/api/overview/azure/ai-formrecognizer-readme?view=azure-python&viewFallbackFrom=doc-intel-3.0.0#examples&preserve-view=true>
+
+``` bash
+pip install azure-ai-formrecognizer
+```

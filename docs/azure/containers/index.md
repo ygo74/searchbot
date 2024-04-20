@@ -23,10 +23,10 @@ Create language resource : https://portal.azure.com/#create/Microsoft.CognitiveS
 $endPointUri = ""
 $apiKey = ""
 
-docker run --rm -it -p 5000:5000 --memory 4g --cpus 1 `
-mcr.microsoft.com/azure-cognitive-services/textanalytics/keyphrase `
-Eula=accept `
-Billing=$endPointUri `
+docker run --rm -it -p 5000:5000 --memory 4g --cpus 1 \
+mcr.microsoft.com/azure-cognitive-services/textanalytics/keyphrase \
+Eula=accept \
+Billing=$endPointUri \
 ApiKey=$apiKey
 
 ```
@@ -75,5 +75,19 @@ docker pull mcr.microsoft.com/azure-cognitive-services/form-recognizer/document-
 
 # Layout
 docker pull mcr.microsoft.com/azure-cognitive-services/form-recognizer/layout-3.0
+
+```
+
+
+``` bash
+
+endpointUri = ""
+apiKey = ""
+
+docker run --rm -it -p 5000:5000 --cpus 1 \
+-e Eula=accept \
+-e Billing=$endpointUri \
+-e ApiKey=$apiKey \
+mcr.microsoft.com/azure-cognitive-services/form-recognizer/read-3.0
 
 ```
