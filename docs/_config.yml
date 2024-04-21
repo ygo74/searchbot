@@ -36,7 +36,7 @@ plugins:
 - jekyll-menus
 - jemoji
 - jekyll-avatar
-- jekyll-tabs
+# - jekyll-tabs
 
 theme: minima
 
