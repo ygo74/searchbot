@@ -88,6 +88,21 @@ docker run --rm -it -p 5000:5000 --cpus 1 \
 -e Eula=accept \
 -e Billing=$endpointUri \
 -e ApiKey=$apiKey \
+-e Logging:Console:LogLevel:Default=Debug \
 mcr.microsoft.com/azure-cognitive-services/form-recognizer/read-3.0
+
+```
+
+``` bash
+
+endpointUri = ""
+apiKey = ""
+
+docker run --rm -it -p 5000:5000 --cpus 1 \
+-e Eula=accept \
+-e Billing=$endpointUri \
+-e ApiKey=$apiKey \
+-e Logging:Console:LogLevel:Default=Debug \
+mcr.microsoft.com/azure-cognitive-services/form-recognizer/layout-3.0
 
 ```

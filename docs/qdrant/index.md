@@ -38,10 +38,18 @@ pip install qdrant-client
 - python client : https://python-client.qdrant.tech/
 - dotnet client :
 
+### qdrant client
+
+- <https://github.com/qdrant/qdrant-client>
+
 ### langchain integration
 
 https://python.langchain.com/docs/integrations/providers/qdrant/
 
-###
+### Fastembed
+
+https://github.com/qdrant/fastembed
+
+### samples
 
 https://github.com/qdrant/qdrant-markdown-indexer
