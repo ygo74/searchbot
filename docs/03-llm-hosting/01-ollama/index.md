@@ -1,15 +1,16 @@
 ---
 layout: default
 title: Ollama
-nav_order: 2
-has_children: true
+parent: LLM Hosting
+nav_order: 1
+has_children: false
 ---
 
 
 ## Sources
 
-- <https://github.com/ollama/ollama>
-- <https://ollama.com/>
+- <https://github.com/ollama/ollama>{:target="_blank"}
+- <https://ollama.com/>{:target="_blank"}
 
 ## Configuration
 
@@ -48,11 +49,7 @@ curl http://$adresse_ip_hote:11434/api/generate -d '{
 
 ### From Python
 
-Source : <https://python.langchain.com/docs/get_started/quickstart#langsmith>
-
-
-
-ls__52807b41512a47b5a963b5c9885c33f1
+Source : <https://python.langchain.com/docs/get_started/quickstart#langsmith>{:target="_blank"}
 
 ## Customize a custom model
 
@@ -68,4 +65,3 @@ You are an Infrastructure engineer with a lot of experience in .net development,
 """
 
 ```
-

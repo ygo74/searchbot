@@ -1,8 +1,9 @@
 ---
 layout: default
 parent: Prompt engineering
+grand_parent: LLM basic
 title: Prompt engineer
-nav_order: 2
+nav_order: 1
 has_children: false
 ---
 

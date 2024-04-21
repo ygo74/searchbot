@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Chatbot scope
-nav_order: 5
+nav_order: 7
 has_children: true
 ---
 
@@ -19,6 +19,6 @@ has_children: true
 
 ## Sources
 
-- https://ubuntu.com/blog/llms-explained
-- https://www.datacamp.com/blog/the-pros-and-cons-of-using-llm-in-the-cloud-versus-running-llm-locally
-- https://www.datacamp.com/blog/12-gpt4-open-source-alternatives
+- <https://ubuntu.com/blog/llms-explained>{:target="_blank"}
+- <https://www.datacamp.com/blog/the-pros-and-cons-of-using-llm-in-the-cloud-versus-running-llm-locally>{:target="_blank"}
+- <https://www.datacamp.com/blog/12-gpt4-open-source-alternatives>{:target="_blank"}

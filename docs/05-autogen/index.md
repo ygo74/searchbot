@@ -1,16 +1,17 @@
 ---
 layout: default
 title: AutoGen
-nav_order: 2
-has_children: true
+nav_order: 5
+has_children: false
 ---
 
-others
-https://github.com/microsoft/promptflow
+## others
+
+- <https://github.com/microsoft/promptflow>{:target="_blank"}
 
 ## Web site
 
-- <https://microsoft.github.io/autogen/>
+- <https://microsoft.github.io/autogen/>{:target="_blank"}
 
 ## Get started
 
@@ -24,7 +25,7 @@ pip install pyautogen[retrievechat]
 
 ## LLM Configuration
 
-- Source : <https://microsoft.github.io/autogen/docs/topics/llm_configuration>
+- Source : <https://microsoft.github.io/autogen/docs/topics/llm_configuration>{:target="_blank"}
 
     ``` python
     [
@@ -40,7 +41,7 @@ pip install pyautogen[retrievechat]
 
 ## Autogen studio
 
-https://github.com/microsoft/autogen/blob/main/samples/apps/autogen-studio/README.md
+- <https://github.com/microsoft/autogen/blob/main/samples/apps/autogen-studio/README.md>{:target="_blank"}
 
 pip install autogenstudio
 autogenstudio ui --port 8081
@@ -48,13 +49,13 @@ autogenstudio ui --port 8081
 
 ## Autogen playground in huggingface
 
-https://huggingface.co/spaces/thinkall/AutoGen_Playground
+- <https://huggingface.co/spaces/thinkall/AutoGen_Playground>{:target="_blank"}
 
 ## Web search
 
 Source :
 
-- <https://console.cloud.google.com/apis/>
+- <https://console.cloud.google.com/apis/>{:target="_blank"}
 
   Custom Search API
 
@@ -74,11 +75,9 @@ Source :
 
 - GPT-researchers
 
-    <https://www.youtube.com/watch?v=AVInhYBUnKs>
-    <https://github.com/evagency/research-agents/blob/main/app.py>
+  - <https://www.youtube.com/watch?v=AVInhYBUnKs>{:target="_blank"}
+  - <https://github.com/evagency/research-agents/blob/main/app.py>{:target="_blank"}
 
 - Group chat research
 
-    <https://microsoft.github.io/autogen/docs/notebooks/agentchat_groupchat_research>
-
-
+  - <https://microsoft.github.io/autogen/docs/notebooks/agentchat_groupchat_research>{:target="_blank"}

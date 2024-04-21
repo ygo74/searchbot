@@ -1,8 +1,9 @@
 ---
 layout: default
 title: vLLM
-nav_order: 2
-has_children: true
+parent: LLM Hosting
+nav_order: 3
+has_children: false
 ---
 
 ## Install
@@ -54,5 +55,5 @@ builder.AddOpenAIChatCompletion("qwen",aiclietn);
 
 ## Sources
 
-- <https://blog.octo.com/comment-utiliser-un-llm-open-source-1>
-- <https://docs.vllm.ai/en/stable/getting_started/installation.html>
+- <https://blog.octo.com/comment-utiliser-un-llm-open-source-1>{:target="_blank"}
+- <https://docs.vllm.ai/en/stable/getting_started/installation.html>{:target="_blank"}

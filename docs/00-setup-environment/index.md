@@ -18,8 +18,8 @@ has_children: true
 
 sources :
 
-- <https://learn.microsoft.com/fr-fr/windows/ai/directml/gpu-cuda-in-wsl>
-- <https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=WSL-Ubuntu&target_version=2.0&target_type=deb_network>
+- <https://learn.microsoft.com/fr-fr/windows/ai/directml/gpu-cuda-in-wsl>{:target="_blank"}
+- <https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=WSL-Ubuntu&target_version=2.0&target_type=deb_network>{:target="_blank"}
 
 
 1. Update windows driver to latest version
@@ -91,7 +91,7 @@ sources :
 
 1. Python
 
-    Source : https://docs.jupyter.org/en/latest/running.html
+    Source : <https://docs.jupyter.org/en/latest/running.html>{:target="_blank"}
 
     ``` bash
     pip3 install --upgrade pip
@@ -101,7 +101,7 @@ sources :
 
 1. dotnet
 
-    Source : <https://github.com/dotnet/interactive>
+    Source : <https://github.com/dotnet/interactive>{:target="_blank"}
 
     ``` bash
     # Install dotnet-sdk

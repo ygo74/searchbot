@@ -1,23 +1,22 @@
+---
+layout: default
+title: Retrieval Augmented Generation
+nav_order: 6
+has_children: false
+---
 
+- <https://github.com/Azure/gpt-rag>{:target="_blank"}
+- <https://github.com/Azure/gpt-rag-ingestion>{:target="_blank"}
 
-
-https://github.com/Azure/gpt-rag
-https://github.com/Azure/gpt-rag-ingestion
-
-
-
-https://towardsdatascience.com/how-i-turned-my-companys-docs-into-a-searchable-database-with-openai-4f2d34bd8736
-
+- <https://towardsdatascience.com/how-i-turned-my-companys-docs-into-a-searchable-database-with-openai-4f2d34bd8736>{:target="_blank"}
 
 ## unstructured documents
 
-https://unstructured-io.github.io/unstructured/introduction.html
-
+- <https://unstructured-io.github.io/unstructured/introduction.html>{:target="_blank"}
 
 ## Langchain Microsoft integration
 
-https://python.langchain.com/docs/integrations/platforms/microsoft/
-
+- <https://python.langchain.com/docs/integrations/platforms/microsoft/>{:target="_blank"}
 
 ### Parse word documents
 
@@ -36,7 +35,7 @@ pip install qdrant_client[fastembed]
 
 ```
 
-https://python.langchain.com/docs/integrations/document_loaders/microsoft_word/
+<https://python.langchain.com/docs/integrations/document_loaders/microsoft_word/>{:target="_blank"}
 
 ``` python
 from langchain_community.document_loaders import Docx2txtLoader
