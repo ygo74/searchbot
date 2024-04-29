@@ -41,6 +41,18 @@ Tokenizing is breaking down a sentence into smaller pieces called "tokens". Thes
 
 - <https://huggingface.co/datasets>{:target="_blank"}
 
+### GGUF
+
+GGUF (Graphical Generic Unified Format) is a format designed to facilitate efficient inference of large language models (LLMs). It provides a unified structure for representing the weights and layers of LLMs. GGUF files are typically binary and not human-readable.
+
+### Quantization
+
+Quantization is a model compression technique that converts the weights and activations of a Large Language Model (LLM) from a high-precision data representation to a lower-precision one, meaning from a data type capable of holding more information to one that holds less. In other words, it allows transitioning from continuous infinite values to a more restricted set of discrete and finite values
+
+By default the parameters in Large Language Models are represented with 32-bit floating numbers. However, the GGML library can convert it into a 16-bit floating point representation thus reducing the memory requirement by 50%  to load & run the LLM
+
+GGML library also supports integer quantization (e.g. 4-bit, 5-bit, 8-bit, etc.) that can further reduce the memory and compute power required to run LLMs locally on the end user’s system or edge devices.
+
 ## Sources
 
 - Transformers : <https://colab.research.google.com/github/qdrant/examples/blob/master/qdrant_101_text_data/qdrant_and_text_data.ipynb#scrollTo=dbPGdticPWio>{:target="_blank"}

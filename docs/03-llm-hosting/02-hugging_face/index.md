@@ -24,3 +24,15 @@ docker run --gpus all `
     --model mistralai/Mistral-7B-Instruct-v0.2
 ```
 
+## Get Models
+
+``` bash
+pip install 'huggingface-hub>=0.17.1'
+
+# requires your hugging face token
+huggingface-cli login
+
+# Download a model
+huggingface-cli download microsoft/Phi-3-mini-4k-instruct-gguf Phi-3-mini-4k-instruct-q4.gguf --local-dir . --local-dir-use-symlinks False
+
+```
