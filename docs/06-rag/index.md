@@ -33,6 +33,9 @@ pip install azure-ai-documentintelligence
 pip install sentence_transformers
 pip install qdrant_client[fastembed]
 
+# Azure AI Analysis services
+pip install azure-ai-textanalytics==5.3.0
+
 ```
 
 <https://python.langchain.com/docs/integrations/document_loaders/microsoft_word/>{:target="_blank"}

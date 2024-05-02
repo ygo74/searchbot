@@ -31,6 +31,20 @@ ApiKey=$apiKey
 
 ```
 
+``` bash
+
+endpointUri=""
+apiKey=""
+
+docker run --rm -it -p 5000:5000 --cpus 1 \
+-e Eula=accept \
+-e Billing=$endpointUri \
+-e ApiKey=$apiKey \
+-e Logging:Console:LogLevel:Default=Debug \
+mcr.microsoft.com/azure-cognitive-services/textanalytics/keyphrase
+
+```
+
 Test : <http://localhost:5000/swagger/index.html>{:target="_blank"}
 
 ## Text Analytics Summarization

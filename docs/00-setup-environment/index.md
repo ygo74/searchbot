@@ -21,7 +21,6 @@ sources :
 - <https://learn.microsoft.com/fr-fr/windows/ai/directml/gpu-cuda-in-wsl>{:target="_blank"}
 - <https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=WSL-Ubuntu&target_version=2.0&target_type=deb_network>{:target="_blank"}
 
-
 1. Update windows driver to latest version
 
     ```powershell
@@ -48,7 +47,6 @@ sources :
     |  No running processes found                                                 |
     +-----------------------------------------------------------------------------+
     ```
-
 
 1. Install Cuda toolkit
 
@@ -86,7 +84,6 @@ sources :
     +-----------------------------------------------------------------------------+
     ```
 
-
 ## Jupyter notebook
 
 1. Python
@@ -97,7 +94,6 @@ sources :
     pip3 install --upgrade pip
     pip3 install jupyter
     ```
-
 
 1. dotnet
 
@@ -120,3 +116,8 @@ sources :
 
 1. Install Azure AI Services
 
+## Cloning models with git
+
+1. Requires [git-lfs](https://git-lfs.com/){:target="_blank"}
+
+1. Add "C:\Program Files\Git LFS" in the path
