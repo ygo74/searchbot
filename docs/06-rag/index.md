@@ -46,3 +46,22 @@ loader = Docx2txtLoader("example_data/fake.docx")
 data = loader.load()
 print(data)
 ```
+
+## Web scraping
+
+### commercial solutions
+
+- <https://Browserless.io>
+
+- <https://scrapingant.com>
+
+  - <https://docs.scrapingant.com/python-client>
+
+- <https://www.wintr.com>
+
+- <https://scrapingbee.com>
+
+- <https://www.scrapingdog.com>
+
+- <https://proxiesapi.com>
+

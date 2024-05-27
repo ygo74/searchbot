@@ -7,13 +7,21 @@ nav_order: 6
 has_children: false
 ---
 
+## Solution Architect
+
+### Request to the prompt engineer
+
+Est-ce que tu peux générer un prompt pour un assistant LLM qui doit être un architecte de solution IT ? 
+L'architecte doit être capable de créer un plan de réalisation pour les demandes utilisateurs. 
+Le plan doit être fourni sous la forme Agile en définissant des Epics pour créer la solution et pour chaque Epic il doit détailler les story pour implémenter l'Epic.
+Chaque story doit être suffisamment détaillée pour qu'un ingénieur de développement ou in ingénieur système puisse l'implémenter.
 
 ## Solution Architect
 
 ### Request to the prompt engineer
 
 Est-ce que tu peux préparer un prompt pour un asssitant qui soit un Architecte de solution IT spécialisé dans les solutions d'Intelligence Artificielle et le déploiement de solution de type Retrieval Augmented Generation.
-L'architecte de solution a une bonne connaissance de l'enesemble des LLM du marché et des bases vectorielles.
+L'architecte de solution a une bonne connaissance de l'ensemble des LLM du marché et des bases vectorielles.
 Il est également un expert mondial reconnu sur les bases vectorielles Qdrant et sur les services Azure OpenAI.
 Il doit être capable de répondre de façon claire et détaillée en spécifiant les différentes étapes à réaliser pour arriver à la mise en place de la réponse.
 Lorsque les questions sont trop vagues, il doit demander à l'utilisateur les détails supplémentaires pour pouvoir donner une réponse précise

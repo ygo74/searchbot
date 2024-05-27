@@ -1,14 +1,17 @@
 from dotenv import load_dotenv
 import os
+import sys
 import fnmatch
 import yaml
 import autogen
-from autogen import ConversableAgent
+from autogen import Agent, ConversableAgent, GroupChat
 from autogen import register_function
 from modules.logging import *
 from modules.search.exception import *
 from modules.search.googlesearch import *
-from typing import Any, List
+from typing import Any, List, Annotated
+import argparse
+from tavily import TavilyClient
 
 import json
 
@@ -32,6 +35,9 @@ def search_internet(query: str):
 
     return result_dict
 
+def search_tool(query: Annotated[str, "The search query"]) -> Annotated[str, "The search results"]:
+    return tavily.get_search_context(query=query, search_depth="advanced")
+
 
 def load_prompts(prompt_path: str) -> dict:
     """
@@ -49,21 +55,90 @@ def load_prompts(prompt_path: str) -> dict:
             results[assistant_name] = contenu
     return results
 
+
+
 def main():
 
+    def custom_speaker_selection_func(last_speaker: Agent, groupchat: GroupChat):
+        """Define a customized speaker selection function.
+        A recommended way is to define a transition for each speaker in the groupchat.
+
+        Returns:
+            Return an `Agent` class or a string from ['auto', 'manual', 'random', 'round_robin'] to select a default method to use.
+        """
+        messages = groupchat.messages
+
+        if len(messages) <= 1:
+            # first, let the engineer retrieve relevant data
+            return planner
+
+        if last_speaker is planner:
+            # if the last message is from planner, let the engineer to write code
+            return critic
+        elif last_speaker is user_proxy:
+            if messages[-1]["content"].strip() == "OK" or messages[-1]["content"].strip() == "":
+                return researcher_manager
+            if messages[-1]["content"].strip() != "":
+                # If the last message is from user and is not empty, let the writer to continue
+                return planner
+
+        # elif last_speaker is engineer:
+        #     if "```python" in messages[-1]["content"] or "pip install" in messages[-1]["content"]:
+        #         # If the last message is a python code block, let the executor to speak
+        #         return code_executor
+        #     else:
+        #         # Otherwise, let the engineer to continue
+        #         return engineer
+
+        # elif last_speaker is code_executor:
+        #     if "exitcode: 1" in messages[-1]["content"]:
+        #         # If the last message indicates an error, let the engineer to improve the code
+        #         return engineer
+        #     else:
+        #         # Otherwise, let the writer to speak
+        #         return writer
+
+        elif last_speaker is critic:
+            # Always let the user to speak after the writer
+            return user_proxy
+
+        else:
+            # default to auto speaker selection method
+            return "auto"
+
+
     try:
+        # Script identification
+        main_script_id = os.path.abspath(sys.argv[0])
+        main_script_name = os.path.basename(main_script_id)
+        print(f"Start python script : {main_script_name}")
+
+        # Parse arguments
+        parser = argparse.ArgumentParser()
+        parser.add_argument("--model_tag", help="models tag to filter used models", default="gpt35")
+        args = parser.parse_args()
+
         # Get Configuration Settings
-        load_dotenv("/mnt/c/devel/searchbot/autogen/.env")
+        load_dotenv()
         ai_endpoint = os.getenv('AZURE_OPENAI_API_ENDPOINT')
         ai_key = os.getenv('AZURE_OPENAI_API_KEY')
         google_key = os.getenv('GOOGLE_SEARCH_API_KEY')
         google_engine_id = os.getenv('GOOGLE_SEARCH_CENTER_CONNECTION_ID')
+        print(f"AI ENDPOINT : {ai_endpoint}")
 
-        # # Google search
-        # results = search_internet(connexion_id=google_engine_id,
-        #                          api_key=google_key,
-        #                          query="'Yannick GOBERT'")
+        # Load the list of models
+        available_llm_config_list = autogen.config_list_from_json(env_or_file="OAI_CONFIG_LIST")
 
+        if args.model_tag is not None and args.model_tag != '':
+            print(f"\tFilter models with tags : {args.model_tag}")
+            filter_dict = {"tags": [args.model_tag]}
+            llm_config_list = autogen.filter_config(available_llm_config_list, filter_dict)
+
+        # Ensure we have a configuration list of models
+        assert len(llm_config_list) > 0
+        llm_config = {"config_list": llm_config_list}
+
+        # Load assistant configuration
         current_path = os.path.dirname(os.path.abspath(__file__))
         prompt_path = os.path.join(current_path, 'prompts')
         prompts = load_prompts(prompt_path=prompt_path)
@@ -71,31 +146,21 @@ def main():
         for result in prompts:
             print( prompts[ result ] )
 
+        # # Google search
+        # results = search_internet(connexion_id=google_engine_id,
+        #                          api_key=google_key,
+        #                          query="'Yannick GOBERT'")
 
-        # Define LLM Config list
-        llm_config_list = [
-            {
-                "model": "gpt-35-turbo-16k",
-                "api_type": "azure",
-                "api_key": ai_key,
-                "base_url": ai_endpoint,
-                "api_version": "2024-02-15-preview"
-            },
-            {
-                "model": "gpt-4-32k",
-                "api_type": "azure",
-                "api_key": ai_key,
-                "base_url": ai_endpoint,
-                "api_version": "2024-02-15-preview"
-            }
-        ]
 
+        print("Additional filter")
         filter_dict = {"model": ["gpt-35-turbo-16k"]}
-        llm_config_lits_gpt3 = autogen.filter_config(llm_config_list, filter_dict)
+        llm_config_lits_gpt3 = autogen.filter_config(available_llm_config_list, filter_dict)
+        print(llm_config_lits_gpt3)
         assert len(llm_config_lits_gpt3) >= 1
 
         filter_dict = {"model": ["gpt-4-32k"]}
-        llm_config_lits_gpt4 = autogen.filter_config(llm_config_list, filter_dict)
+        llm_config_lits_gpt4 = autogen.filter_config(available_llm_config_list, filter_dict)
+        print(llm_config_lits_gpt4)
         assert len(llm_config_lits_gpt4) >= 1
 
         gpt3_config = {
@@ -112,92 +177,8 @@ def main():
             "timeout": 120,
         }
 
-        # user_proxy = autogen.UserProxyAgent(
-        #     name= prompts[ "admin" ][ "assistant_name" ],
-        #     system_message=prompts[ "admin" ][ "prompt" ],
-        #     code_execution_config=False,
-        # )
 
-        # engineer = autogen.AssistantAgent(
-        #     name=prompts[ "engineer" ][ "assistant_name" ],
-        #     llm_config=gpt4_config,
-        #     system_message=prompts[ "engineer" ][ "prompt" ],
-        # )
-
-        # scientist = autogen.AssistantAgent(
-        #     name=prompts[ "scientist" ][ "assistant_name" ],
-        #     llm_config=gpt4_config,
-        #     system_message=prompts[ "scientist" ][ "prompt" ],
-        # )
-
-        # planner = autogen.AssistantAgent(
-        #     name=prompts[ "planner" ][ "assistant_name" ],
-        #     llm_config=gpt4_config,
-        #     system_message=prompts[ "planner" ][ "prompt" ],
-        # )
-
-        # executor = autogen.UserProxyAgent(
-        #     name=prompts[ "executor" ][ "assistant_name" ],
-        #     system_message=prompts[ "executor" ][ "prompt" ],
-        #     human_input_mode="NEVER",
-        #     code_execution_config={
-        #         "last_n_messages": 3,
-        #         "work_dir": "paper",
-        #         "use_docker": False,
-        #     },  # Please set use_docker=True if docker is available to run the generated code. Using docker is safer than running the generated code directly.
-        # )
-
-        # critic = autogen.AssistantAgent(
-        #     name=prompts[ "critic" ][ "assistant_name" ],
-        #     llm_config=gpt4_config,
-        #     system_message=prompts[ "critic" ][ "prompt" ],
-        # )
-
-
-        # engineer = autogen.AssistantAgent(
-        #     name="Engineer",
-        #     llm_config=gpt4_config,
-        #     system_message="""Engineer. You follow an approved plan. You write python/shell code to solve tasks. Wrap the code in a code block that specifies the script type. The user can't modify your code. So do not suggest incomplete code which requires others to modify. Don't use a code block if it's not intended to be executed by the executor.
-        # Don't include multiple code blocks in one response. Do not ask others to copy and paste the result. Check the execution result returned by the executor.
-        # If the result indicates there is an error, fix the error and output the code again. Suggest the full code instead of partial code or code changes. If the error can't be fixed or if the task is not solved even after the code is executed successfully, analyze the problem, revisit your assumption, collect additional info you need, and think of a different approach to try.
-        # """,
-        # )
-
-        # scientist = autogen.AssistantAgent(
-        #     name="Scientist",
-        #     llm_config=gpt4_config,
-        #     system_message="""Scientist. You follow an approved plan. You are able to categorize papers after seeing their abstracts printed. You don't write code.""",
-        # )
-        # planner = autogen.AssistantAgent(
-        #     name="Planner",
-        #     system_message="""Planner. Suggest a plan. Revise the plan based on feedback from admin and critic, until admin approval.
-        # The plan may involve an engineer who can write code and a scientist who doesn't write code.
-        # Explain the plan first. Be clear which step is performed by an engineer, and which step is performed by a scientist.
-        # """,
-        #     llm_config=gpt4_config,
-        # )
-        # executor = autogen.UserProxyAgent(
-        #     name="Executor",
-        #     system_message="Executor. Execute the code written by the engineer and report the result.",
-        #     human_input_mode="NEVER",
-        #     code_execution_config={
-        #         "last_n_messages": 3,
-        #         "work_dir": "paper",
-        #         "use_docker": False,
-        #     },  # Please set use_docker=True if docker is available to run the generated code. Using docker is safer than running the generated code directly.
-        # )
-        # critic = autogen.AssistantAgent(
-        #     name="Critic",
-        #     system_message="Critic. Double check plan, claims, code from other agents and provide feedback. Check whether the plan includes adding verifiable info such as source URL.",
-        #     llm_config=gpt4_config,
-        # )
-
-
-        # groupchat = autogen.GroupChat(
-        #     agents=[user_proxy, engineer, scientist, planner, executor, critic], messages=[], max_round=50
-        # )
-        # manager = autogen.GroupChatManager(groupchat=groupchat, llm_config=gpt4_config)
-
+        print("Declare agents")
         user_proxy = autogen.UserProxyAgent(
             name=prompts[ "admin" ][ "assistant_name" ],
             system_message=prompts[ "admin" ][ "prompt" ],
@@ -207,13 +188,18 @@ def main():
         planner = autogen.AssistantAgent(
             name=prompts[ "planner" ][ "assistant_name" ],
             llm_config={
-                "cache_seed": 42,  # change the cache_seed for different trials
+                # "cache_seed": 42,  # change the cache_seed for different trials
                 "temperature": prompts[ "planner" ][ "temperature" ],
                 "config_list": llm_config_lits_gpt3,
                 "timeout": 120,
             },
             system_message=prompts[ "planner" ][ "prompt" ],
-            description="This is the planner agent"
+            description="This is the planner agent",
+            is_termination_msg=lambda x: "content" in x
+                and x["content"] is not None
+                and (x["content"].rstrip().endswith("TERMINATE") or x["content"].rstrip().endswith("EXIT")),
+            max_consecutive_auto_reply=1
+
         )
 
         researcher_manager = autogen.AssistantAgent(
@@ -226,7 +212,7 @@ def main():
 
         researcher = autogen.AssistantAgent(
             name=prompts[ "researcher" ][ "assistant_name" ],
-            llm_config=gpt4_config,
+            llm_config=gpt3_config,
             system_message=prompts[ "researcher" ][ "prompt" ],
             description="This is the researcher agent"
         )
@@ -261,7 +247,11 @@ def main():
                 "temperature": prompts[ "critic" ][ "temperature" ],
                 "config_list": llm_config_lits_gpt3,
             },
-            description="This is the critic agent"
+            description="This is the critic agent",
+            is_termination_msg=lambda x: "content" in x
+                and x["content"] is not None
+                and (x["content"].rstrip().endswith("TERMINATE") or x["content"].rstrip().endswith("EXIT")),
+            max_consecutive_auto_reply=1
         )
 
         register_function(
@@ -272,16 +262,25 @@ def main():
             description="search keywords with google search")
 
 
+        graph_dict = {}
+        graph_dict[user_proxy] = [planner]
+        graph_dict[planner] = [critic, user_proxy]
+        graph_dict[critic] = [planner]
+
         groupchat = autogen.GroupChat(
             # agents=[user_proxy, planner, scientist, researcher, researcher_manager, executor], messages=[], max_round=50
-            agents=[user_proxy, planner, critic ],
+            agents=[user_proxy, researcher, researcher_manager ],
             messages=[
-                "Start to work with the planner"
-            ], max_round=50
+                "Start to work with the researcher_manager"
+            ],
+            # speaker_selection_method=custom_speaker_selection_func,
+            allowed_or_disallowed_speaker_transitions=graph_dict,
+            speaker_transitions_type="allowed",
+            max_round=5
         )
         group_chat_manager  = autogen.GroupChatManager(groupchat=groupchat, llm_config=gpt3_config)
 
-
+        print("Start the chat")
         user_proxy.initiate_chat(
             group_chat_manager ,
             # message="""

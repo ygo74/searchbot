@@ -3,8 +3,9 @@ import os
 import sys
 import autogen
 from autogen import ConversableAgent
-from modules.logging import *
+from modules.logging  import *
 import argparse
+from modules.assistant_configuration import load_prompts
 
 def termination_msg(x):
     '''
@@ -42,18 +43,22 @@ def main():
         assert len(llm_config_list) > 0
         llm_config = {"config_list": llm_config_list}
 
+        # Load assistant configuration
+        current_path = os.path.dirname(os.path.abspath(__file__))
+        prompt_path = os.path.join(current_path, 'prompts')
+        prompts = load_prompts(prompt_path=prompt_path)
+
+        for result in prompts:
+            print( prompts[ result ] )
+
         # Start logging
         logging_session_id = autogen.runtime_logging.start(config={"dbname": "logs.db"})
         print("Logging session ID: " + str(logging_session_id))
 
         # create an AssistantAgent named "assistant"
         assistant = autogen.AssistantAgent(
-            name="assistant",
-            # system_message="""
-            # if you need to retrieve additional information on Internet, you can generate the code to retrieve it.
-            # Generated code van be executed by the user_proxy agent.
-            # Return 'TERMINATE' when the task is done.
-            # """,
+            name=prompts[ "solution_architect"]["assistant_name"],
+            # system_message=prompts[ "solution_architect"]["prompt"],
             llm_config={
                 "cache_seed": 41,  # seed for caching and reproducibility
                 "config_list": llm_config[ "config_list"],  # a list of OpenAI API configurations
@@ -65,8 +70,8 @@ def main():
         # create a UserProxyAgent instance named "user_proxy"
         user_proxy = autogen.UserProxyAgent(
             name="user_proxy",
-            human_input_mode="NEVER",
-            max_consecutive_auto_reply=10,
+            human_input_mode="ALWAYS",
+            max_consecutive_auto_reply=2,
             is_termination_msg=termination_msg,
             code_execution_config={
                 "work_dir": "coding",
@@ -82,9 +87,7 @@ def main():
             # Can you summarize this page https://unique-ch.atlassian.net/wiki/spaces/PUB/pages/445972706/Get+started+with+a+Single+Tenant to know what we have to think to deploy unique Finance GPT?
             # """,
             message="""
-            Can you summarize this repository stored in https://github.com/ygo74/searchbot?
-            Can you give information on the programmation language used in the repository ?
-            Can you also inform what libraries are used for this application ?
+            Comment ajouter la création des devices dans l'API Inventory.Devices.Api dont le code se trouve dans un repository github https://github.com/ygo74/Inventory.API?
             """,
             summary_method="reflection_with_llm",
         )

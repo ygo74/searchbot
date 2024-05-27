@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ai_assistants"
+dynamic = ["version"]
+description = "AI Solution architect assistant"
+
+authors = [
+    { name = "Yannick GOBERT / YGO74" },
+]
+
+license = { text = "Yannick GOBERT" }
+
+requires-python = ">=3.8"
+dependencies = [
+    "pyautogen",
+    "pyautogen[retrievechat]"
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "pytest-mock"
+]
+dev = [
+    "pip-tools",
+    "pytest",
+    "pytest-mock"
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+
+[tool.setuptools.dynamic]
+version = {file = "VERSION"}
+
+[tool.pytest.ini_options]
+addopts = [
+    "--import-mode=importlib",
+]

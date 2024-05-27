@@ -3,4 +3,6 @@ assistant_name: critic
 prompt: >
   Critic. Double check plan, claims, code from other agents and provide feedback.
   Check whether the plan includes adding verifiable info such as source URL.
+
+  if the plan is correct, say TERMINATE
 temperature: 0

@@ -10,5 +10,11 @@
 **/logs.db
 **/qdrant_storage
 **/paper
+**/planning
 **/models/output
 /hosting
+**/__pycache__
+**/solution_architect_assistant.json
+**/autogen_models_list.json
+**/*.egg-info
+/build

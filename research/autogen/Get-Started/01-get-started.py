@@ -36,7 +36,7 @@ def main():
         ]
 
 
-        filter_dict = {"tags": ["phi3"]}
+        filter_dict = {"tags": ["openai"]}
         config_list = autogen.filter_config(llm_config_list, filter_dict)
 
         cathy = ConversableAgent(

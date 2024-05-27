@@ -1,5 +1,5 @@
 # Create model with ollama
-FROM llama2
+FROM C:/devel/searchbot/hosting/models/gguf/Phi-3-mini-4k-instruct-q4.gguf
 
 # set the temperature to 1 [higher is more creative, lower is more coherent]
 PARAMETER temperature 0
