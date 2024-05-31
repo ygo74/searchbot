@@ -55,7 +55,9 @@ print(data)
 
 - <https://scrapingant.com>
 
+  - Has free plan : 10 000 available API credits / month
   - <https://docs.scrapingant.com/python-client>
+  - <https://app.scrapingant.com/dashboard>
 
 - <https://www.wintr.com>
 
@@ -65,3 +67,8 @@ print(data)
 
 - <https://proxiesapi.com>
 
+## Text splitters
+
+Source : <https://python.langchain.com/v0.1/docs/modules/data_connection/document_transformers/>
+
+pip install -qU langchain-text-splitters
