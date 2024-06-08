@@ -17,18 +17,22 @@ has_children: false
 
 ## Sources
 
-- <https://github.com/microsoft/kernel-memory/tree/main>
-- <https://microsoft.github.io/kernel-memory/>
+- <https://github.com/microsoft/kernel-memory/tree/main>{:target="_blank"}
+- <https://microsoft.github.io/kernel-memory/>{:target="_blank"}
 
 ## Execution environment
 
 ### Kernel Memory Service configuration
+
+The Kernel memory services can be configured thanks to the asp.net configuration file. You can find a sample in the repository [here](https://github.com/ygo74/searchbot/blob/main/research/semantic_kernel/backends/appsettings.Development.sample.json){:target="_blank"}.
+You can also configure it with the setup tools in the Kernel Memory repository.
 
 1. Text Generation Service
 
     1. Configure the service used for Text generation
 
         - key : TextGeneratorType
+
           value: Service name (e.g. AzureOpenAIText)
 
         ``` json
@@ -67,6 +71,85 @@ has_children: false
             }
         }
         ```
+
+1. Text embedding service
+
+    1. Configure the service
+
+        ``` json
+        {
+            "KernelMemory": {
+                "Services": {
+                    "AzureOpenAIEmbedding": {
+                        "Auth": "ApiKey",
+                        "Endpoint": "<YOUR AZURE OPEANAI URL>",
+                        "APIKey": "<YOUR AZURE OPEANAI API KEY>",
+                        "Deployment": "<YOUR AZURE OPEANAI EMBEDDING DEPLOYMENT MODEL NAME>",
+                        "MaxTokenTotal": 8191,
+                        "EmbeddingDimensions": null,
+                        "APIType": "EmbeddingGeneration"
+                    },
+                }
+            }
+        }
+        ```
+
+1. Data Ingestion
+
+    ``` json
+    {
+        "KernelMemory": {
+            "DataIngestion": {
+            "OrchestrationType": "Distributed",
+            "DistributedOrchestration": {
+                "QueueType": "RabbitMQ"
+            },
+            "EmbeddingGenerationEnabled": true,
+            "EmbeddingGeneratorTypes": [
+                "AzureOpenAIEmbedding"
+            ],
+            "MemoryDbTypes": [
+                "Qdrant"
+            ],
+            "MemoryDbUpsertBatchSize": 1,
+            "ImageOcrType": "None",
+            "TextPartitioning": {
+                "MaxTokensPerParagraph": 1000,
+                "MaxTokensPerLine": 300,
+                "OverlappingTokens": 100
+            },
+            "DefaultSteps": []
+            },
+        }
+    }
+
+    ```
+
+1. Retrieval
+
+    ``` json
+    {
+        "KernelMemory": {
+            "Retrieval": {
+            "MemoryDbType": "Qdrant",
+            "EmbeddingGeneratorType": "AzureOpenAIEmbedding",
+            "SearchClient": {
+                "MaxAskPromptSize": -1,
+                "MaxMatchesCount": 100,
+                "AnswerTokens": 8191,
+                "EmptyAnswer": "INFO NOT FOUND",
+                "Temperature": 0.0,
+                "TopP": 0.0,
+                "PresencePenalty": 0.0,
+                "FrequencyPenalty": 0.0,
+                "StopSequences": [],
+                "TokenSelectionBiases": {}
+            }
+            },
+        }
+    }
+
+    ```
 
 ### Docker
 
@@ -122,7 +205,3 @@ docker compose -f docker-compose.yml up -d
 > ``` bash
 > docker inspect --format "{{json .State.Health }}" backends-rabbitmq-1
 > ```
-
-    ``` json
-
-    ```
