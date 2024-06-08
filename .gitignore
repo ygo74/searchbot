@@ -45,3 +45,6 @@
 
 # Kernel Memory configuration
 **/appsettings.Development.json
+
+# Docs
+**/Gemfile.lock
