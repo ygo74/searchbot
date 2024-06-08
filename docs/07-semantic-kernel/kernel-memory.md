@@ -24,7 +24,49 @@ has_children: false
 
 ### Kernel Memory Service configuration
 
-1.
+1. Text Generation Service
+
+    1. Configure the service used for Text generation
+
+        - key : TextGeneratorType
+          value: Service name (e.g. AzureOpenAIText)
+
+        ``` json
+        {
+            "KernelMemory": {
+                "Service": {
+                    "RunWebService": true,
+                    "RunHandlers": true,
+                    "OpenApiEnabled": true,
+                    "Handlers": {
+                        ...
+                    }
+                },
+                "ContentStorageType": "",
+                "DocumentStorageType": "SimpleFileStorage",
+                "TextGeneratorType": "AzureOpenAIText"
+            }
+        }
+        ```
+
+    1. Configure the service
+
+        ``` json
+        {
+            "KernelMemory": {
+                "Services": {
+                    "AzureOpenAIText": {
+                        "APIType": "ChatCompletion",
+                        "Auth": "ApiKey",
+                        "Endpoint": "<YOUR AZURE OPEANAI URL>",
+                        "Deployment": "<YOUR AZURE OPEANAI DEPLOYMENT MODEL NAME>",
+                        "APIKey": "<YOUR AZURE OPEANAI API KEY>",
+                        "MaxRetries": 10
+                    },
+                }
+            }
+        }
+        ```
 
 ### Docker
 
@@ -80,3 +122,7 @@ docker compose -f docker-compose.yml up -d
 > ``` bash
 > docker inspect --format "{{json .State.Health }}" backends-rabbitmq-1
 > ```
+
+    ``` json
+
+    ```
