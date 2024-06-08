@@ -75,8 +75,8 @@ docker compose -f docker-compose.yml up -d
 ```
 
 {: .note }
-If services doesn't start, you can check the health state logs
-
-``` bash
-docker inspect --format "{{json .State.Health }}" backends-rabbitmq-1
-```
+> If services doesn't start, you can check the health state logs
+>
+> ``` bash
+> docker inspect --format "{{json .State.Health }}" backends-rabbitmq-1
+> ```
