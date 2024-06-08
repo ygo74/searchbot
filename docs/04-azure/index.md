@@ -40,3 +40,21 @@ source : <https://learn.microsoft.com/en-us/python/api/overview/azure/ai-formrec
 ``` bash
 pip install azure-ai-formrecognizer
 ```
+
+## Monitoring
+
+- <https://demiliani.com/2023/12/19/monitoring-your-azure-openai-usage>
+
+  ``` kusto
+  AzureDiagnostics
+  | where ResourceProvider contains "MICROSOFT.COGNITIVESERVICES"
+  | where Category contains "RequestResponse"
+  ```
+
+- <https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/monitoring>
+
+  ``` kusto
+  AzureMetrics
+  | take 100
+  | project TimeGenerated, MetricName, Total, Count, Maximum, Minimum, Average, TimeGrain, UnitName
+  ```

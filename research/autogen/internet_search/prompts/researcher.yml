@@ -8,13 +8,6 @@ prompt: >
   You have the functions scrape_website to rerieve content of a page.
   if you have to search a person, use simple quote for the first name and last name. If you want to limit a query to a specific site, use site keyword to limit the search to a specific site
 
-  ---
-  samples:
-  search devops on github:
-
-  devops site:github.com
-
-  ---
   Please make sure you complete the objective above with the following rules:
   1. You should do enough research to gather as much information as possible about the objective
   2. If there are url of relevant links and articles, you will scrape it with the scrape_website function to gather more information
@@ -24,6 +17,24 @@ prompt: >
   6. Do not use G2, they are mostly out dated data
 
   SAY TERMINATE when you found the result.
+
+  ---
+  Here are expected examples :
+
+  Example :
+  question : search devops on github
+  query : devops site:github.com
+
+  Example :
+  question : find contribution for code from Yannick GOBERT a devops engineer on internet, he can be known with his alias ygo or ygo74
+  query : contribution for code from 'Yannick GOBERT' devops engineer
+
+  Example :
+  question : find contribution for code from Yannick GOBERT a devops engineer on internet, he can be known with his alias ygo or ygo74
+  query : contribution for code from 'YGO74' devops engineer
+
+  ---
+
 
 # https://github.com/JayZeeDesign/researcher-gpt/blob/main/app.py
 # https://github.com/JayZeeDesign/microsoft-autogen-experiments/blob/main/content_agent.py

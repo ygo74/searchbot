@@ -222,12 +222,12 @@ def main():
             name=prompts[ "admin" ][ "assistant_name" ],
             system_message=prompts[ "admin" ][ "prompt" ],
             is_termination_msg=termination_msg,
-            max_consecutive_auto_reply=2,
-            human_input_mode="NEVER",
+            max_consecutive_auto_reply=5,
             code_execution_config={
                 "executor": code_executor,
                 "last_n_messages": 3,
             },
+            human_input_mode="NEVER",
         )
 
         researcher = autogen.AssistantAgent(
@@ -238,12 +238,20 @@ def main():
             },  # configuration for autogen's enhanced inference API which is compatible with OpenAI API
             system_message=prompts[ "researcher" ][ "prompt" ],
             description="This is the researcher agent",
-            is_termination_msg=termination_msg
+            is_termination_msg=termination_msg,
+            code_execution_config=False
 
         )
 
+        # researcher.register_function(
+        #     function_map={
+        #         "google_search": search_internet,
+        #         "scrape_website": scrape_website
+        #     }
+        # )
+
         register_function(
-            search_internet,
+            search_tool,
             caller=researcher,
             executor=user_proxy,
             name="google_search",
@@ -268,7 +276,7 @@ def main():
             'to indicate the conversation is finished and this is your last message.'
         )
 
-        prompt = "Find information for Langchain and how to start with this framework"
+        # prompt = "Find information for Langchain and how to start with this framework"
         # prompt += termination_notice
 
         # Cache LLM responses. To get different responses, change the cache_seed value.
@@ -278,19 +286,19 @@ def main():
             # message="""
             # find contribution for code from Yannick GOBERT a devops engineer on internet, he can be known with his alias ygo or ygo74
             # """,
-            # message="""
-            # I want to hire a new employee, I need to know if this person can fit with my objectives to develop a dotnet microservices application.
-            # This application will follow Domain driven Design approach, It uses Graphql, fluentvalidation, mediator libraries.
-            # It is deployed on Azure Kubernetes servies.
-            # Can you confirm that Yannick GOBERT fits this role ?
-            # """,
+            message="""
+            I want to hire a new employee, I need to know if this person can fit with my objectives to develop a dotnet microservices application.
+            This application will follow Domain driven Design approach, It uses Graphql, fluentvalidation, mediator libraries.
+            It is deployed on Azure Kubernetes servies.
+            Can you confirm that Yannick GOBERT fits this role, He may be also known as ygo74 ?
+            """,
             # message="""
             # Find information for Microsoft Semantic Kernel and how to start with this framework
             # """,
             # message="""
             # Find information for Microsoft AutoGen and how to start with this framework
             # """,
-            message=prompt,
+            # message=prompt,
             silent=False
         )
 
