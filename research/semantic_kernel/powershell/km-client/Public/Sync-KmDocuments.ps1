@@ -52,5 +52,8 @@ Function Sync-KMDocument
         {
             Throw "Error during upload for file $FilePath"
         }
+
+        # Wait for ingestion
+        Wait-KMDocumentIngestion -DocumentId $DocumentId -Index $Index -ServiceUri $ServiceUri
     }
 }
