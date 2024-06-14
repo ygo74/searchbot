@@ -1,20 +1,31 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <UserSecretsId>830ddc8e-36f0-4c30-91f5-648680055032</UserSecretsId>
+    <UserSecretsId>e2370cad-abf3-47cc-b0b7-77ba32665bc9</UserSecretsId>
   </PropertyGroup>
+
+
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Http.Resilience" Version="8.6.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options.DataAnnotations" Version="8.0.0" />
     <PackageReference Include="Microsoft.KernelMemory.SemanticKernelPlugin" Version="0.62.240605.1" />
     <PackageReference Include="Microsoft.KernelMemory.WebClient" Version="0.62.240605.1" />
-    <PackageReference Include="Microsoft.SemanticKernel" Version="1.14.1" />
     <PackageReference Include="Microsoft.SemanticKernel.Planners.Handlebars" Version="1.14.1-preview" />
     <PackageReference Include="Microsoft.SemanticKernel.PromptTemplates.Handlebars" Version="1.14.1" />
     <PackageReference Include="Microsoft.SemanticKernel.Yaml" Version="1.14.1" />
@@ -23,13 +34,24 @@
     <PackageReference Include="Serilog" Version="4.0.0" />
     <PackageReference Include="Serilog.Extensions.Hosting" Version="8.0.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+    <PackageReference Include="System.Linq.Async" Version="6.0.1" />
+    <PackageReference Include="Microsoft.SemanticKernel" Version="1.14.1" />
+    <PackageReference Include="Microsoft.SemanticKernel.Plugins.Web" Version="1.14.1-alpha" />
+    <PackageReference Include="Microsoft.SemanticKernel.Plugins.Core" Version="1.14.1-alpha" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <None Update="appsettings.Development.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="prompts\Chat.yaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <CustomToolNamespace>prompts</CustomToolNamespace>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Prompts\**\*.yaml" />
   </ItemGroup>
-
+  
 </Project>

@@ -1,0 +1,25 @@
+﻿---
+name: scrapeWebpage
+description: Scrape a webpage
+template: |
+  <message role="system">Intructions: Always Scrape this webpage {{url}}, then search if the content of the page fits with the user question {{question}}.
+  </message>
+
+  {{webscraper.scrape_web_page url=url index=index}}
+  {{webscraper.ask_question question=question index=index}}
+
+  <message role="user">{{question}}</message>
+
+template_format: handlebars
+input_variables:
+  - name:        url
+    description: the webpage url to scrape
+    is_required: true
+  - name:        question
+    description: the user's question
+    is_required: true
+  - name:        index
+    description: the vector database to store webpages vectors
+    default:     web
+
+
