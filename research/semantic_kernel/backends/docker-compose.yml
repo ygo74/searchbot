@@ -1,0 +1,50 @@
+version: '3.4'
+
+networks:
+  kmnet:
+    driver: bridge
+
+services:
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    networks:
+      - kmnet
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    healthcheck:
+        test: rabbitmq-diagnostics -q ping
+        interval: 30s
+        timeout: 10s
+        retries: 5
+
+  qdrant:
+    image: qdrant/qdrant
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - kmnet
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - ./qdrant_storage:/qdrant/storage:z
+
+
+  kmservice:
+    image: kernelmemory/service
+    depends_on:
+      qdrant:
+        condition: service_started
+      rabbitmq:
+        condition: service_healthy
+
+    networks:
+      - kmnet
+    ports:
+      - "9001:9001"
+    volumes:
+      - ./appsettings.Development.json:/app/appsettings.Production.json
+
