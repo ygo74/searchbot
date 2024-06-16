@@ -36,6 +36,10 @@ namespace kernel_internet_search
                     Temperature = 0.0,
                     TopP = 0.1,
                 },
+                // Use gpt-4 or newer models if you want to test with loops.
+                // Older models like gpt-35-turbo are less recommended. They do handle loops but are more prone to syntax errors.
+                // AllowLoops = ChatDeploymentName.Contains("gpt-4", StringComparison.OrdinalIgnoreCase),
+               
             };
 
             // Instantiate the planner and create the plan

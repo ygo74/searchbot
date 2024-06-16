@@ -7,6 +7,7 @@ using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,16 +43,17 @@ namespace kernel_internet_search.Monitoring
             {
                 return LoggerFactory.Create(logBuilder =>
                 {
-                    logBuilder.AddOpenTelemetry(options =>
-                    {
-                        options.SetResourceBuilder(resourceBuilder);
-                        options.AddConsoleExporter();
+                    //logBuilder.AddOpenTelemetry(options =>
+                    //{
+                    //    options.SetResourceBuilder(resourceBuilder);
+                    //    options.AddConsoleExporter();
 
-                        options.IncludeFormattedMessage = true;
-                        options.IncludeScopes = true;
-                    });
+                    //    options.IncludeFormattedMessage = true;
+                    //    options.IncludeScopes = true;
+                    //});
 
                     logBuilder.SetMinimumLevel(LogLevel.Trace);
+                    logBuilder.AddSerilog(Log.Logger);
                 });
             });
 

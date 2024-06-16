@@ -26,3 +26,9 @@ has_children: true
 
 
 - <https://github.com/geffzhang/awesome-semantickernel>{:target="_blank"}
+
+
+
+## Filters
+
+- <https://devblogs.microsoft.com/semantic-kernel/filters-in-semantic-kernel/>{:target="_blank"}
