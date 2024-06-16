@@ -10,18 +10,24 @@ namespace kernel_internet_search.Filters
 {
 
 #pragma warning disable SKEXP0001
-    internal class DisplayFunction(ILogger logger) : IFunctionInvocationFilter
+    internal class DisplayFunction(ILoggerFactory loggerFactory) : IFunctionInvocationFilter
     {
-        private readonly ILogger _logger = logger;
+        private readonly ILogger _logger = loggerFactory.CreateLogger<DisplayFunction>();
 
         public async Task OnFunctionInvocationAsync(FunctionInvocationContext context, Func<FunctionInvocationContext, Task> next)
         {
             // Perform some actions before function invocation
-            _logger.LogInformation("Call function {0}.{1} with arguments {2}", context.Function.PluginName, context.Function.Name, "test");
+            var sb = new StringBuilder();
+            foreach (var arg in context.Arguments)
+            {
+                sb.AppendLine($"{arg.Key} : {arg.Value}");
+            }
+
+            _logger.LogInformation("Call function {0}.{1} with arguments {2}", context.Function.PluginName, context.Function.Name, sb.ToString());
 
             await next(context);
             // Perform some actions after function invocation
-            _logger.LogInformation("Result : {0}", context.Result);
+            _logger.LogInformation("Result fromm function {0}.{1} : {2}", context.Function.PluginName, context.Function.Name, context.Result);
         }
     }
 #pragma warning restore SKEXP0001

@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 namespace kernel_internet_search.Filters
 {
 #pragma warning disable SKEXP0001
-    internal class DisplayPrompt(ILogger logger) : IPromptRenderFilter
+    internal class DisplayPrompt(ILoggerFactory loggerFactory) : IPromptRenderFilter
     {
 
-        private readonly ILogger _logger = logger;
+        private readonly ILogger _logger = loggerFactory.CreateLogger<DisplayPrompt>();
 
         public async Task OnPromptRenderAsync(PromptRenderContext context, Func<PromptRenderContext, Task> next)
         {

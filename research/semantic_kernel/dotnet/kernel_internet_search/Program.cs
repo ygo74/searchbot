@@ -14,6 +14,7 @@ using Microsoft.SemanticKernel.Plugins.Web;
 using Serilog;
 using Microsoft.KernelMemory;
 using kernel_internet_search.Plugins;
+using kernel_internet_search.Filters;
 
 // See https://aka.ms/new-console-template for more information
 Console.WriteLine("Start Kernel Internet search!");
@@ -34,8 +35,11 @@ hostBuilder.Services.AddLogging();
 hostBuilder.AddTelemetryService();
 
 // Actual code to execute is found in Worker class
-hostBuilder.Services.AddHostedService<InternetSearcher>();
+//hostBuilder.Services.AddHostedService<InternetSearcher>();
+//hostBuilder.Services.AddHostedService<WorkerWithPlaner>();
 //hostBuilder.Services.AddHostedService<Worker>();
+hostBuilder.Services.AddHostedService<WorkerWithAgents>();
+
 
 hostBuilder.Configuration
       .AddJsonFile("appsettings.json")
@@ -95,9 +99,15 @@ hostBuilder.Services.AddTransient<Kernel>(sp =>
 
     // Logger
     var loggerFactory = sp.GetRequiredService<ILoggerFactory>();
-
     var Kernel = new Kernel(sp, pluginCollection);
     Kernel.LoggerFactory.AddSerilog();
+
+#pragma warning disable SKEXP0001
+    Kernel.PromptRenderFilters.Add(new DisplayPrompt(loggerFactory));
+    Kernel.FunctionInvocationFilters.Add(new DisplayFunction(loggerFactory));
+#pragma warning restore SKEXP0001
+
+
     return Kernel;
     //IKernelBuilder builder = Kernel.CreateBuilder();
 

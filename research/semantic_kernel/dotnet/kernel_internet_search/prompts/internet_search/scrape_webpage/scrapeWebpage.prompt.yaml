@@ -2,11 +2,17 @@
 name: scrapeWebpage
 description: Scrape a webpage
 template: |
-  <message role="system">Intructions: Always Scrape this webpage {{url}}, then search if the content of the page fits with the user question {{question}}.
-  </message>
+  <message role="system">
+  Always Scrape this webpage {{url}}.
 
   {{webscraper.scrape_web_page url=url index=index}}
   {{webscraper.ask_question question=question index=index}}
+
+  Considering only the information above, which has been found in the vector database after scraping the webpage, answer the following.
+  Question: {{question}}
+  Answer:
+  </message>
+
 
   <message role="user">{{question}}</message>
 

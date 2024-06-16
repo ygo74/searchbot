@@ -3,10 +3,12 @@ using Microsoft.Extensions.Logging;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 using Microsoft.SemanticKernel.Planning.Handlebars;
+using Microsoft.SemanticKernel.PromptTemplates.Handlebars;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -27,6 +29,20 @@ namespace kernel_internet_search
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            // Load prompt from YAML
+            var ressouresNames = Assembly.GetEntryAssembly()!.GetManifestResourceNames();
+            var ressourceName = ressouresNames[0];
+            var stream = Assembly.GetEntryAssembly()!.GetManifestResourceStream(ressourceName);
+            using StreamReader reader = new(stream!);
+            KernelFunction scrapeWebpage = kernel.CreateFunctionFromPromptYaml(
+                await reader.ReadToEndAsync(),
+                promptTemplateFactory: new HandlebarsPromptTemplateFactory()
+            );
+
+            _kernel.ImportPluginFromFunctions("urlscrape", "scrapes webpage based on the url", new KernelFunction[] { scrapeWebpage });
+
+
+
             // Set the planner options
             var plannerOptions = new HandlebarsPlannerOptions()
             {
@@ -43,12 +59,12 @@ namespace kernel_internet_search
             };
 
             // Instantiate the planner and create the plan
-            var goal = "Find repositories for ygo74 account on github.com";
+            var goal = "Qui a gagné la ligue des champions de football masculin en 2024?";
             var planner = new HandlebarsPlanner(plannerOptions);
             var plan = await planner.CreatePlanAsync(kernel, goal);
 
             // Execute the plan
-            var result = await plan.InvokeAsync(kernel, null, stoppingToken);
+            var result = await plan.InvokeAsync(_kernel, null, stoppingToken);
 
             PrintPlannerDetails(goal, plan, result, true);
 

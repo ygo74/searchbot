@@ -27,7 +27,9 @@ has_children: true
 
 - <https://github.com/geffzhang/awesome-semantickernel>{:target="_blank"}
 
+## Agents
 
+- <https://medium.com/@akshaykokane09/step-by-step-guide-to-develop-ai-multi-agent-system-using-microsoft-semantic-kernel-and-gpt-4o-f5991af40ea6>{:target="_blank"}
 
 ## Filters
 
