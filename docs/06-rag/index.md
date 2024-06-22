@@ -2,7 +2,7 @@
 layout: default
 title: Retrieval Augmented Generation
 nav_order: 6
-has_children: false
+has_children: true
 ---
 
 - <https://github.com/Azure/gpt-rag>{:target="_blank"}
