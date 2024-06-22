@@ -1,5 +1,6 @@
 ---
 layout: default
+grand_parent: Retrieval Augmented Generation
 parent: Documents parsing
 title: Parsing All type of files
 nav_order: 2
