@@ -14,7 +14,7 @@ namespace kernel_internet_search.Plugins
     {
         [Description("Scrape a webpage")]
         [KernelFunction("scrape_web_page")]
-        public async Task ScrapeWebPage(
+        public async Task<string> ScrapeWebPage(
             Kernel kernel,
             [Description("Webpage's url to scrape")]string url
             )
@@ -23,7 +23,7 @@ namespace kernel_internet_search.Plugins
             // Work around for pages which doesn't exist
             if (url.Contains("uefa.com/") | url.Contains("rts.ch/"))
             {
-                return;
+                return "NOT FOUND";
             }
 
             using var httpClient = new HttpClient();
@@ -34,7 +34,7 @@ namespace kernel_internet_search.Plugins
 
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
             {
-                return;
+                return "NOT FOUND";
             }
 
 
@@ -42,28 +42,29 @@ namespace kernel_internet_search.Plugins
 
             var documentId = url.GetHashCode().ToString();
 
-            if (await s_memory.IsDocumentReadyAsync(documentId: documentId, index: "web"))
+            if (!await s_memory.IsDocumentReadyAsync(documentId: documentId, index: "web"))
             {
-                return;
-            }
 
-            var result = await s_memory.ImportWebPageAsync(
-                url: url,
-                documentId: documentId,
-                index: "web"
-            );
+                var result = await s_memory.ImportWebPageAsync(
+                    url: url,
+                    documentId: documentId,
+                    index: "web"
+                );
 
-            var count = 0;
-            while(!await s_memory.IsDocumentReadyAsync(documentId: documentId, index: "web"))
-            {
-                await Task.Delay(TimeSpan.FromSeconds(2));
-                count++;
-                if (count == 30)
+                var count = 0;
+                while (!await s_memory.IsDocumentReadyAsync(documentId: documentId, index: "web"))
                 {
-                    return;
-                    //throw new Exception("Unable to scrape this webpage, try with another page");
+                    await Task.Delay(TimeSpan.FromSeconds(2));
+                    count++;
+                    if (count == 30)
+                    {
+                        break;
+                        //throw new Exception("Unable to scrape this webpage, try with another page");
+                    }
                 }
             }
+
+            return "FOUND INFORMATION, NOW ASK THE QUESTION TO VECTOR DATABASE";
 
         }
 

@@ -8,6 +8,7 @@ services:
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
+    restart: always
     networks:
       - kmnet
     ports:
@@ -21,6 +22,7 @@ services:
 
   qdrant:
     image: qdrant/qdrant
+    restart: always
     depends_on:
       rabbitmq:
         condition: service_healthy
@@ -35,6 +37,7 @@ services:
 
   kmservice:
     image: kernelmemory/service
+    restart: always
     depends_on:
       qdrant:
         condition: service_started

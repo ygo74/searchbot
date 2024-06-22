@@ -35,10 +35,11 @@ hostBuilder.Services.AddLogging();
 hostBuilder.AddTelemetryService();
 
 // Actual code to execute is found in Worker class
-//hostBuilder.Services.AddHostedService<InternetSearcher>();
+hostBuilder.Services.AddHostedService<InternetSearcher>();
 //hostBuilder.Services.AddHostedService<WorkerWithPlaner>();
 //hostBuilder.Services.AddHostedService<Worker>();
-hostBuilder.Services.AddHostedService<WorkerWithAgents>();
+//hostBuilder.Services.AddHostedService<WorkerWithAgents>();
+//hostBuilder.Services.AddHostedService<InternetSearcherAgent>();
 
 
 hostBuilder.Configuration

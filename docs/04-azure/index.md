@@ -9,6 +9,12 @@ has_children: true
 
 - <https://github.com/Azure-Samples/azure-search-openai-demo/>{:target="_blank"}
 
+## LangChain Integration
+
+Sources:
+
+- <https://python.langchain.com/v0.2/docs/integrations/text_embedding/azureopenai/>{:target="_blank"}
+
 ## Sources
 
 - <https://techcommunity.microsoft.com/t5/ai-machine-learning-blog/deploy-large-language-models-responsibly-with-azure-ai/ba-p/3876792>{:target="_blank"}
