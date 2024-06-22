@@ -36,7 +36,8 @@ Sources :
 
 ### Prerequisites
 
-An Azure AI Document Intelligence resource in one of the 3 preview regions: East US, West US2, West Europe
+{: .warning }
+> An Azure AI Document Intelligence resource in one of the 3 preview regions: East US, West US2, West Europe
 
 
 ### Python packages
