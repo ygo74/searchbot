@@ -121,3 +121,16 @@ sources :
 1. Requires [git-lfs](https://git-lfs.com/){:target="_blank"}
 
 1. Add "C:\Program Files\Git LFS" in the path
+
+## WSL Ubuntu
+
+``` bash
+# Get list of installed packages
+sudo apt list --installed
+```
+
+``` bash
+# Get details of installed package
+sudo apt show poppler-utils
+```
+

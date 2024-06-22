@@ -5,24 +5,28 @@ from azure.ai.formrecognizer import DocumentAnalysisClient
 
 # Get Configuration Settings
 load_dotenv()
-endpoint = os.getenv("AZURE_FORM_RECOGNIZER_ENDPOINT")
-key = os.getenv("AZURE_FORM_RECOGNIZER_KEY")
+endpoint = os.getenv("DOCUMENTINTELLIGENCE_ENDPOINT")
+key = os.getenv("DOCUMENTINTELLIGENCE_API_KEY")
 
 print(endpoint)
 print(key)
 # raise Exception("stop")
 
-# file_path="/mnt/c/Users/Administrator/Documents/repas.pdf"
-file_path = "/mnt/c/Temp/ACTE DE CAUTIONNEMENT.docx"
+file_path="/mnt/c/Users/Administrator/Documents/repas.pdf"
+# file_path = "/mnt/c/Temp/ACTE DE CAUTIONNEMENT.docx"
 
 
 document_analysis_client = DocumentAnalysisClient(
-    endpoint=endpoint, credential=AzureKeyCredential(key), api_version="2022-08-31"
+    endpoint=endpoint,
+    credential=AzureKeyCredential(key),
+    api_version="2023-07-31"
 )
+
 with open(file_path, "rb") as f:
     poller = document_analysis_client.begin_analyze_document(
         "prebuilt-read", document=f
     )
+
 result = poller.result()
 
 for style in result.styles:

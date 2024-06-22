@@ -52,7 +52,8 @@ def analyze_layout():
     #     )
     # )
 
-    path_to_sample_documents = "/mnt/c/Temp/ACTE DE CAUTIONNEMENT.docx"
+    # path_to_sample_documents = "/mnt/c/Temp/ACTE DE CAUTIONNEMENT.docx"
+    path_to_sample_documents = "/mnt/c/Users/Administrator/Documents/repas.pdf"
 
     # [START extract_layout]
     from azure.core.credentials import AzureKeyCredential
@@ -62,11 +63,19 @@ def analyze_layout():
     endpoint = os.environ["DOCUMENTINTELLIGENCE_ENDPOINT"]
     key = os.environ["DOCUMENTINTELLIGENCE_API_KEY"]
 
-    document_intelligence_client = DocumentIntelligenceClient(endpoint=endpoint, credential=AzureKeyCredential(key), api_version="2022-08-31")
+    document_intelligence_client = DocumentIntelligenceClient(
+        endpoint=endpoint,
+        credential=AzureKeyCredential(key),
+        api_version="2023-07-31"
+    )
+
     with open(path_to_sample_documents, "rb") as f:
         poller = document_intelligence_client.begin_analyze_document(
-            "prebuilt-read", analyze_request=f, content_type="application/octet-stream"
+            "prebuilt-read",
+             analyze_request=f,
+             content_type="application/octet-stream"
         )
+
     result: AnalyzeResult = poller.result()
 
     if result.styles and any([style.is_handwritten for style in result.styles]):
