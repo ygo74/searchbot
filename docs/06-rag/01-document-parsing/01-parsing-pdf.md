@@ -3,7 +3,7 @@ layout: default
 parent: Documents parsing
 title: Parsing PDF files
 nav_order: 1
-has_children: true
+has_children: false
 ---
 
 

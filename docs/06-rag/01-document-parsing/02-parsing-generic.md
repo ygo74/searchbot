@@ -2,8 +2,8 @@
 layout: default
 parent: Documents parsing
 title: Parsing All type of files
-nav_order: 1
-has_children: true
+nav_order: 2
+has_children: false
 ---
 
 ## Langchain Unstructured
