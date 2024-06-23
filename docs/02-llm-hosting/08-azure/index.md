@@ -3,7 +3,7 @@ layout: default
 parent: LLM Hosting
 title: Azure
 nav_order: 8
-has_children: true
+has_children: false
 ---
 
 <details open markdown="block">
