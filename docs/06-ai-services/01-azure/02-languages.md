@@ -21,7 +21,7 @@ Azure AI Language is a cloud-based service that provides Natural Language Proces
 ## Capabilities
 
 | Capabilities | Link |
-|:------------:|:----:|
+|:------------ |:---- |
 | Custom text classification | <https://learn.microsoft.com/en-us/azure/ai-services/language-service/custom-text-classification/overview>{:target="_blank"} |
 | Conversational language understanding | <https://learn.microsoft.com/en-us/azure/ai-services/language-service/conversational-language-understanding/overview>{:target="_blank"} |
 | Entity linking | <https://learn.microsoft.com/en-us/azure/ai-services/language-service/entity-linking/overview>{:target="_blank"} |
@@ -79,13 +79,13 @@ Test : <http://localhost:5000/swagger/index.html>{:target="_blank"}
 ### Available containers
 
 | Capabilities                                | Link |
-|:-------------------------------------------:|:----:|
+|:------------------------------------------- |:---- |
 | Custom text classification                  |  |
 | Conversational language understanding       |  |
 | Entity linking                              |  |
 | Language detection                          |  |
 | Key phrase extraction                       | docker pull mcr.microsoft.com/azure-cognitive-services/textanalytics/keyphrase |
-| Named Entity Recognition                    | docker pull mcr.microsoft.com/azure-cognitive-services/textanalytics/ner:latest <br \>docker pull mcr.microsoft.com/azure-cognitive-services/textanalytics/customner:3.0.72991232-onprem-amd64 |
+| Named Entity Recognition                    | docker pull mcr.microsoft.com/azure-cognitive-services/textanalytics/ner:latest <br/>docker pull mcr.microsoft.com/azure-cognitive-services/textanalytics/customner:3.0.72991232-onprem-amd64 |
 | Orchestration workflow                      |  |
 | Personal Identifiable Information detection |  |
 | Custom question answering                   |  |
