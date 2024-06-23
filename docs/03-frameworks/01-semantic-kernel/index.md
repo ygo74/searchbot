@@ -9,6 +9,8 @@ has_children: false
 
 ## Sources
 
+- <https://github.com/microsoft/semantic-kernel>{:target="_blank"}
+
 - Microsoft Learn Semantic Kernel : <https://learn.microsoft.com/en-us/semantic-kernel/overview/?tabs=Csharp>{:target="_blank"}
 
 - Architecting AI Apps with Semantic Kernel : <https://devblogs.microsoft.com/semantic-kernel/architecting-ai-apps-with-semantic-kernel/>{:target="_blank"}
