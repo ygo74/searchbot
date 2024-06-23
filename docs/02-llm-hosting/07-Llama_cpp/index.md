@@ -1,8 +1,8 @@
 ---
 layout: default
 title: Llama cpp
-parent: Local LLM
-nav_order: 5
+parent: LLM Hosting
+nav_order: 7
 has_children: false
 ---
 

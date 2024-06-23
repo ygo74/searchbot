@@ -1,8 +1,9 @@
 ---
 layout: default
+parent: Frameworks
 title: Semantic Kernel
-nav_order: 7
-has_children: true
+nav_order: 1
+has_children: false
 ---
 
 

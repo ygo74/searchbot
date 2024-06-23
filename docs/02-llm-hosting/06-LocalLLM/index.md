@@ -1,8 +1,8 @@
 ---
 layout: default
-title: ONNX
-parent: Local LLM
-nav_order: 5
+title: Local LLM
+parent: LLM Hosting
+nav_order: 6
 has_children: false
 ---
 

@@ -1,7 +1,8 @@
 ---
 layout: default
+parent: LLM Hosting
 title: Azure
-nav_order: 4
+nav_order: 8
 has_children: true
 ---
 

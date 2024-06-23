@@ -1,7 +1,8 @@
 ---
 layout: default
+parent: Frameworks
 title: AutoGen
-nav_order: 5
+nav_order: 2
 has_children: false
 ---
 
