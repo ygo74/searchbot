@@ -1,9 +1,12 @@
 ---
 layout: default
-title: Chatbot scope
-nav_order: 7
-has_children: true
+parent: LLM basic
+title: Chat Completion
+nav_order: 3
+has_children: false
 ---
+
+## Objectives
 
 - Define the scope of the chatbot and the value that it is expected to provide.
 - Understand the target audience of the chatbot, including details such as cultural habits, demographics or language preferences.
@@ -11,14 +14,3 @@ has_children: true
 - Take the necessary integrations into account, so users can interact with the chatbot seamlessly. For example, using mobile apps, websites and APIs.
 - Ensure that the chatbot follows ethical guidelines, promotes unbiased interactions and follows your industry’s compliance requirements.
 - Consider the scalability options of the project.
-
-## Questiois
-
-- Cloud or on premise deployment ?
-- Which tools ?
-
-## Sources
-
-- <https://ubuntu.com/blog/llms-explained>{:target="_blank"}
-- <https://www.datacamp.com/blog/the-pros-and-cons-of-using-llm-in-the-cloud-versus-running-llm-locally>{:target="_blank"}
-- <https://www.datacamp.com/blog/12-gpt4-open-source-alternatives>{:target="_blank"}

@@ -9,10 +9,8 @@ has_children: true
 
 ## Prompt engineering
 
-Sources :
-
-- <https://www.promptingguide.ai/techniques/cot>{:target="_blank"}
-
+- [Prompt's techniques](https://www.promptingguide.ai/techniques/cot){:target="_blank"}
+- [What is Prompt Engineering? A Detailed Guide](https://www.datacamp.com/blog/what-is-prompt-engineering-the-future-of-ai-communication){:target="_blank"}
 
 ## Prompt samples
 
