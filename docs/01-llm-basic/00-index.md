@@ -14,7 +14,6 @@ has_children: true
 {:toc}
 </details>
 
-
 ## Definitions
 
 ### Transformers
@@ -29,7 +28,6 @@ Transformers are known for their ability to learn long-range dependencies betwee
   You can use this framework to compute sentence / text embeddings for more than 100 languages. These embeddings can then be compared e.g. with cosine-similarity to find sentences with a similar meaning. This can be useful for semantic textual similarity, semantic search, or paraphrase mining.
 
   <https://www.sbert.net/docs/pretrained_models.html>{:target="_blank"}
-
 
 ### Tokenizing
 

@@ -1,10 +1,16 @@
 ---
 layout: default
-parent: Semantic Kernel
-title: Memory Kernel
+grand_parent: Retrieval Augmented Generation
+parent: Out-of-the-box services
+title: Kernel Memory
 nav_order: 1
 has_children: false
 ---
+
+Kernel Memory (KM) is a multi-modal AI Service specialized in the efficient indexing of datasets through custom continuous data hybrid pipelines, with support for Retrieval Augmented Generation (RAG), synthetic memory, prompt engineering, and custom semantic memory processing.
+
+{: .warning }
+> kernel Memory is a demonstration and is not an officially supported Microsoft offering.
 
 <details open markdown="block">
   <summary>
