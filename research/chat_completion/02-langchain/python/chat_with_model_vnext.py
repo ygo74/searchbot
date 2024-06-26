@@ -1,4 +1,5 @@
 from langchain_community.llms import Ollama
+from dotenv import load_dotenv
 
 import argparse
 
@@ -6,6 +7,9 @@ import argparse
 
 
 def main():
+    # Load environment variables from .venv
+    load_dotenv()
+
     parser = argparse.ArgumentParser()
     parser.add_argument("--model", help="Model's name as defined in Ollama", default="prompt_engineer")
     parser.add_argument("--ollama_base_url", help="Model's name as defined in Ollama", default="http://172.19.144.1:11434")

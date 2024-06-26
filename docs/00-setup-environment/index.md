@@ -134,3 +134,13 @@ sudo apt list --installed
 sudo apt show poppler-utils
 ```
 
+## Langsmith
+
+- <https://www.langchain.com/langsmith>{:target="_blank"}
+
+LangSmith is a unified DevOps platform for developing, collaborating, testing, deploying, and monitoring LLM applications.
+New Pricing:
+All free accounts will be rate limited to 5k traces per month starting on July 1st. To avoid this, sign up for our paid plans
+
+
+- <https://smith.langchain.com/>{:target="_blank"}

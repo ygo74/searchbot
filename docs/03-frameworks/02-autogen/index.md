@@ -82,3 +82,12 @@ Source :
 - Group chat research
 
   - <https://microsoft.github.io/autogen/docs/notebooks/agentchat_groupchat_research>{:target="_blank"}
+
+## Web UI
+
+https://yeyu.substack.com/p/how-to-create-a-web-ui-for-autogen
+
+pip install --upgrade panel
+
+
+panel serve source_code.py

@@ -1,0 +1,42 @@
+import feedparser
+import datetime
+from dateutil.relativedelta import relativedelta
+
+# Define the URL for the arXiv API
+base_url = 'http://export.arxiv.org/api/query?'
+
+# Define the search parameters
+search_query = 'all:LLM'  # search for the term 'LLM' in all fields
+start = 0   # start at the first result
+total_results = 100  # want to see total_results results
+sort_by = 'submittedDate'  # sort by submission date
+sort_order = 'descending'  # sort in descending order
+
+# Define the time period for the last week
+now = datetime.datetime.now()
+week_ago = now - relativedelta(weeks=1)
+time_period = '[{} TO {}]'.format(week_ago.strftime('%Y%m%d%H%M%S'), now.strftime('%Y%m%d%H%M%S'))
+
+# Construct the query
+query = 'search_query={}&start={}&max_results={}&sortBy={}&sortOrder={}&startDateTime={}'.format(search_query,
+                                                                                                  start,
+                                                                                                  total_results,
+                                                                                                  sort_by,
+                                                                                                  sort_order,
+                                                                                                  time_period)
+
+# Perform the query
+response = feedparser.parse(base_url+query)
+
+# Extract the relevant information from each entry
+papers = []
+for entry in response.entries:
+    title = entry.title
+    authors = ', '.join(author.name for author in entry.authors)
+    abstract = entry.summary
+    link = entry.link
+    papers.append((title, authors, abstract, link))
+
+# Print the titles of the papers
+for paper in papers:
+    print(paper[0])

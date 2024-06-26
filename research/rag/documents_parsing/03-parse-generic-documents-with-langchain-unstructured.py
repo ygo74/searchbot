@@ -4,6 +4,7 @@
 import os
 import argparse
 import logging
+from dotenv import load_dotenv
 
 from langchain_community.document_loaders import UnstructuredFileLoader
 
@@ -52,6 +53,10 @@ if HAS_UNSTRUCTURED:
 
 
 def main():
+
+    # Load environment variables from .venv
+    load_dotenv()
+
     parser = argparse.ArgumentParser()
     parser.add_argument("--file_path", help="file path")
     args = parser.parse_args()

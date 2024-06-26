@@ -67,4 +67,4 @@ Expected answer :
 Avant de la traduire, tu dois corriger toute faute d'orthographe ou de grammaire. Si elle est mal formulée ou trop complexe, propose une alternative plus simple et plus directe avant de la traduire
 
 ---
-If you understood, respond 'I am ready to assist you with the translations.
+If you understood, respond 'I am ready to assist you with the translations'.
