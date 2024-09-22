@@ -1,0 +1,50 @@
+qualification,command
+1,sudo ls /root
+1,sudo cat /etc/passwd
+1,sudo systemctl status apache2
+1,sudo service ssh restart
+1,sudo cp /var/log/syslog /home/user/
+1,sudo rm -rf /tmp/*
+1,sudo mv /home/user/file.txt /root/
+1,sudo chmod 644 /var/www/html/index.html
+1,sudo chown user:user /var/www/html/index.html
+1,sudo apt-get update
+1,sudo apt-get upgrade
+1,sudo yum install httpd
+1,sudo dnf remove nginx
+1,sudo adduser newuser
+1,sudo passwd newuser
+1,sudo visudo
+1,sudo iptables -L
+1,sudo ifconfig eth0 up
+1,sudo df -h
+1,sudo du -sh /var/log
+1,sudo tar -czvf backup.tar.gz /home/user/
+1,sudo unzip archive.zip -d /opt/
+1,sudo kill -9 12345
+1,sudo pkill -f apache2
+1,sudo mount /dev/sdb1 /mnt/usb
+1,sudo umount /mnt/usb
+1,sudo whoami
+1,sudo hostnamectl set-hostname newhostname
+1,sudo timedatectl set-timezone Europe/Paris
+1,sudo journalctl -xe
+1,sudo tail -f /var/log/syslog
+1,sudo crontab -e
+1,sudo echo 'PermitRootLogin no' >> /etc/ssh/sshd_config
+1,sudo ssh-keygen -t rsa -b 4096
+1,sudo ufw enable
+1,sudo ufw allow 22
+1,sudo ufw deny 80
+1,sudo lsof -i :80
+1,sudo netstat -tuln
+1,sudo ip addr show
+1,sudo rsync -avz /home/user/ /backup/user/
+1,sudo scp /home/user/file.txt user@remote:/path/
+1,sudo traceroute google.com
+1,sudo ping -c 4 8.8.8.8
+1,sudo curl https://example.com
+1,sudo wget http://example.com/file.zip
+1,sudo systemctl restart nginx
+1,sudo systemctl stop mysql
+1,sudo systemctl start docker

