@@ -1,8 +1,9 @@
-**/*_venv*
+venv/*_venv*
 **/vLLM_venv*
 **/*.pth
 **/pytorch/data/*
 **/.env
+**/.env*
 **/.cache
 **/tmp
 **/.cache/**

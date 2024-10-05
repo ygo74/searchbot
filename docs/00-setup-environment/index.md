@@ -14,6 +14,12 @@ has_children: true
 {:toc}
 </details>
 
+## Cuda toolkit
+
+- last version : <https://developer.nvidia.com/cuda-downloads>{:target="_blank"}
+- Legacy version : <https://developer.nvidia.com/cuda-toolkit-archive>{:target="_blank"}
+  - 11.4.4 : <https://developer.nvidia.com/cuda-11-4-4-download-archive?target_os=Windows&target_arch=x86_64&target_version=10&target_type=exe_local>{:target="_blank"}
+
 ## Cuda wsl
 
 sources :
@@ -144,3 +150,16 @@ All free accounts will be rate limited to 5k traces per month starting on July 1
 
 
 - <https://smith.langchain.com/>{:target="_blank"}
+
+
+## Langchain
+
+### Prepare venv
+
+``` powershell
+python -m venv .\venv\windows_venv_langchain
+& .\venv\windows_venv_langchain\Scripts\activate
+pip install langchain
+pip install langchain-openai
+pip install python-dotenv
+```

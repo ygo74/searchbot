@@ -14,3 +14,4 @@ has_children: false
 - Take the necessary integrations into account, so users can interact with the chatbot seamlessly. For example, using mobile apps, websites and APIs.
 - Ensure that the chatbot follows ethical guidelines, promotes unbiased interactions and follows your industry’s compliance requirements.
 - Consider the scalability options of the project.
+
