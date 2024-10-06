@@ -24,7 +24,7 @@ venv/*_venv*
 **/.dockerignore
 **/.env
 **/.git
-**/.gitignore
+# **/.gitignore
 **/.project
 **/.settings
 **/.toolstarget
