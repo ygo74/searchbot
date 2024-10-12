@@ -1,0 +1,41 @@
+version: '3.4'
+
+networks:
+  adress_validator:
+    driver: bridge
+
+services:
+
+  postgres_image:
+    image: postgis/postgis:latest
+    ports:
+      - "32781:5432"
+    restart: always
+    volumes:
+      - /docker_volumes/searchbot/address_validator/backends/postgres/data:/var/lib/postgresql/data
+      - /mnt/c/devel/searchbot/samples/address_validator/backends/postgres/pg_hba.conf:/var/lib/postgresql/data/pg_hba.conf
+    environment:
+      POSTGRES_USER: "adress_validator"
+      POSTGRES_PASSWORD: "adress_validator"
+      POSTGRES_DB: "serversDB"
+    networks:
+      - adress_validator
+
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - "9480:80"
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: user@domain.com
+      PGADMIN_DEFAULT_PASSWORD: SuperSecret
+    networks:
+      - adress_validator
+
+volumes:
+  db_volume:
+    driver: local
+    driver_opts:
+      type: none
+      device: /docker_volumes/searchbot/address_validator/backends/postgres/data
+      o: bind

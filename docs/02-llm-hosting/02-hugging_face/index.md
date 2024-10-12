@@ -24,6 +24,19 @@ docker run --gpus all `
     --model mistralai/Mistral-7B-Instruct-v0.2
 ```
 
+## Install huggingface-cli
+
+1. Create python env
+2. Install huggingface-hub
+
+``` powershell
+python -m venv .\venv\huggingface_venv
+& .\venv\huggingface_venv\Scripts\activate
+
+pip install huggingface-hub
+huggingface-cli --help
+```
+
 ## Get Models
 
 ``` bash

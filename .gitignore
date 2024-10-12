@@ -49,3 +49,7 @@ venv/*_venv*
 
 # Docs
 **/Gemfile.lock
+
+**/libpostal_data
+**/*.osm
+research/teams
