@@ -53,3 +53,19 @@ python -m venv .\venv\unittests_venv
 pip install python-dotenv langchain openai datasets pytest
 pip install langchain-openai langchain_community
 ```
+
+### database storage
+
+``` sql
+CREATE ROLE nom_utilisateur WITH LOGIN PASSWORD 'votre_mot_de_passe';
+
+```
+
+
+``` bash
+read -sp "Entrez le mot de passe pour l'utilisateur PostgreSQL : " password
+echo  # Nouvelle ligne pour éviter que le prompt suivant s'affiche juste après le mot de passe
+
+sudo -u postgres psql -v password="'$password'" -f /mnt/c/devel/searchbot/research/evaluation/unit_tests/database_schema.sql
+
+```

@@ -1,0 +1,12 @@
+---
+prompts:
+  - name: generic_question_king_uk
+    user_prompt: "Qui est le roi d'Angleterre ?"
+    expected_answer: >-
+      Le roi actuel d'Angleterre est Charles III, qui a accédé au trône le 8 septembre 2022, suite au décès de sa mère, la reine Elizabeth II.
+      Charles III est né le 14 novembre 1948 et a été couronné lors d'une cérémonie à Westminster Abbey le 6 mai 2023, marquant ainsi la première couronnement en près de sept décennies
+
+  - name: generic_question_queen_uk
+    user_prompt: qui était le roi d'angleterre avant charles III?
+    expected_answer: >-
+      Avant Charles III, le roi d'Angleterre était Elizabeth II

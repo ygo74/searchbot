@@ -2,7 +2,7 @@ from langchain_openai import AzureChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from dotenv import load_dotenv
 import json
-from opik import track, llm_unit
+# from opik import track, llm_unit
 
 # Load environment variables from .venv
 load_dotenv()
@@ -79,7 +79,7 @@ llm = AzureChatOpenAI(
 
 
 # Fonction pour tester le LLM
-@track
+# @track
 def get_llm_response(prompt):
     return llm.invoke(prompt)
 
