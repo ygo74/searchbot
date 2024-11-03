@@ -3,7 +3,10 @@ from sqlalchemy.orm import declarative_base, relationship, sessionmaker
 from contextlib import contextmanager
 from datetime import datetime
 import os
+from dotenv import load_dotenv
+import logging
 
+logger = logging.getLogger("database")
 Base = declarative_base()
 
 class Assistant(Base):
@@ -44,7 +47,7 @@ class TestResult(Base):
     filtered_violence = Column(Boolean)
     comparison_score = Column(Float)
     comparison_best_answer = Column(String)
-    comaprison_reason = Column(String)
+    comparison_reason = Column(String)
     created_at = Column(DateTime, default=datetime.utcnow)
 
 @contextmanager
@@ -80,17 +83,94 @@ def assistant_upsert(assistant_name: str):
             for key, value in assistant_data.items():
                 setattr(assistant, key, value)
         session.commit()
+        session.refresh(assistant)
 
     return assistant
 
+def testcase_insert(assistant_name: str, system_prompt: str, temperature: float, max_tokens: int, model: str):
+
+    test_case_data = {
+        "system_prompt": system_prompt,
+        "temperature": temperature,
+        "max_tokens": max_tokens,
+        "model": model
+    }
+
+    test_case_id = None
+    with db_session() as session:
+
+        assistant = session.query(Assistant).filter_by(name=assistant_name).first()
+        if assistant is None:
+            raise ValueError(f"Assistant '{assistant_name}' does not exist.")
+
+        test_case_data[ "assistant_id" ] = assistant.id,
+        test_case = TestCase(**test_case_data)
+        session.add(test_case)
+        session.commit()
+        session.refresh(test_case)
+        test_case_id = test_case.id
+
+    return test_case_id
+
+def test_result_insert(test_case_id: int, llm_test_results: list):
+
+    with db_session() as session:
+
+        test_case = session.get(TestCase, test_case_id)
+        session.refresh(test_case)
+        if test_case is None:
+            raise ValueError(f"Test case  '{test_case_id}' does not exist.")
+
+        for result_item in llm_test_results:
+
+            test_result_data = {
+                "test_case_id": test_case_id,
+                "test_name": result_item[ "name" ],
+                "result": "",
+                "error_message": "",
+                "test_number": result_item[ "testNumber" ],
+                "user_prompt": result_item[ "user_prompt" ],
+                "answer": result_item[ "answer" ],
+                "expected_answer": result_item[ "expected_answer" ],
+                "prompt_tokens": result_item[ "prompt_tokens" ],
+                "completion_tokens": result_item[ "completion_tokens" ],
+                "model_name": result_item[ "model_name" ],
+                "filtered_hate": result_item[ "filtered_hate" ],
+                "filtered_protected_material_code": result_item[ "filtered_protected_material_code" ],
+                "filtered_protected_material_text": result_item[ "filtered_protected_material_text" ],
+                "filtered_self_harm": result_item[ "filtered_self_harm" ],
+                "filtered_sexual": result_item[ "filtered_sexual" ],
+                "filtered_violence": result_item[ "filtered_violence" ],
+                "comparison_score": result_item[ "comparison_score" ],
+                "comparison_best_answer": result_item[ "best_answer" ],
+                "comparison_reason": result_item[ "comparison_reason" ]
+            }
+
+            test_result = TestResult(**test_result_data)
+            session.add(test_result)
+
+        session.commit()
+
 
 # Init db engine
+load_dotenv()
+
 dbname = os.getenv("DATABASE_NAME")
 dbserver = os.getenv("DATABASE_SERVER")
 dbuser = os.getenv("DATABASE_USERNAME")
 dbpassword = os.getenv("DATABASE_PASSWORD")
 dbport = 5432
 
+logger.info(f"Open database {dbname} on server {dbserver} with user {dbuser}")
+print(f"Open database {dbname} on server {dbserver} with user {dbuser}")
+
 DATABASE_URL = f"postgresql://{dbuser}:{dbpassword}@{dbserver}:{dbport}/{dbname}"
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+# Exemple d'utilisation
+if __name__ == "__main__":
+  setup_database()
+  Base.metadata.drop_all(engine)
+  sql = Base.metadata.create_all(engine)
+  print(sql)

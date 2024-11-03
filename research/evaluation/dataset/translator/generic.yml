@@ -1,0 +1,20 @@
+---
+prompts:
+  - name: generic_question_king_uk
+    user_prompt: "Qui est le roi d'Angleterre ?"
+    expected_answer: >-
+      1. Ce prompt est correct dans un contexte professionnel, pas de correction nécessaire.
+      2. Traduction en anglais : "Who is the King of England?"
+
+  - name: generic_question_queen_uk
+    user_prompt: qui était le roi d'angleterre avant charles III?
+    expected_answer: >-
+      1. Ce prompt est correct dans un contexte professionnel, pas de correction nécessaire.
+      2. Traduction en anglais : "Who was the King of England before Charles III?"
+
+  - name: system_prompt_sample
+    user_prompt: Nous pouvons ben entendu travailler avec ton collègue mais il faudra qu'il se bouge et pas qu'il ne foute rien sur le projet
+    expected_answer: >-
+      1. Ce prompt n'est pas approprié dans un contexte professionnel. Utiliser un langage vulgaire ou insultant n'est pas professionnel.
+      2. Correction : "Nous pouvons bien sûr travailler avec votre collègue, mais il est important qu'il soit pleinement engagé dans le projet et qu'il contribue activement."
+      3. Traduction en anglais : "Of course, we can work with your colleague, but it's essential that he is fully committed to the project and actively contributes."

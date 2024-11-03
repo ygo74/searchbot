@@ -11,7 +11,7 @@ from langchain_openai import AzureChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 
 from unit_tests.lib.prompts_loading import load_yaml_files, extract_names
-from unit_tests.lib.database import setup_database
+from unit_tests.lib.database import setup_database, assistant_upsert, testcase_insert, test_result_insert
 
 # Configurer le logging
 logging.basicConfig(level=logging.INFO)
@@ -26,6 +26,8 @@ load_dotenv()
 # Liste pour stocker les résultats des tests
 test_results = []
 pytest.llm_results = {}
+pytest.assistant = None
+pytest.test_case_id = None
 
 
 def pytest_addoption(parser):
@@ -102,15 +104,15 @@ def pytest_generate_tests(metafunc):
         metafunc.parametrize("prompt_name", extract_names(prompts))
 
 
-@pytest.hookimpl(tryfirst=True)
-def pytest_runtest_logreport(report):
-    if report.when == "call":
-        print(f"{report.nodeid} - {report.outcome} - {report.duration}")
-        test_name = report.nodeid
-        status = "PASSED" if report.passed else "FAILED"
-        message = report.longreprtext if report.failed else ""
-        test_results.append((test_name, status, message))
-        save_test_result(test_name, status, message)
+# @pytest.hookimpl(tryfirst=True)
+# def pytest_runtest_logreport(report):
+#     if report.when == "call":
+#         print(f"{report.nodeid} - {report.outcome} - {report.duration}")
+#         test_name = report.nodeid
+#         status = "PASSED" if report.passed else "FAILED"
+#         message = report.longreprtext if report.failed else ""
+#         test_results.append((test_name, status, message))
+#         save_test_result(test_name, status, message)
 
 def pytest_sessionfinish(session, exitstatus):
     print("\n===== Résumé des tests =====")
@@ -121,8 +123,12 @@ def pytest_sessionfinish(session, exitstatus):
 
     print("===== Fin du résumé des tests =====")
 
+    L_llm_results = []
     for key, value in pytest.llm_results.items():
         print(value)
+        L_llm_results.append(value)
+
+    test_result_insert(pytest.test_case_id, L_llm_results)
 
 
 @pytest.fixture(scope="session")
@@ -145,15 +151,31 @@ def llm_chain(request):
     if "system_prompt" not in assistant_config:
         pytest.fail(f"system prompt (key=system_prompt) not defined in '{assistant_file_path}'", pytrace=False)
 
+    # record assistant name and assistant use case
+    pytest.assistant = assistant_upsert(assistant_name)
 
+    system_prompt = assistant_config["system_prompt"]
+    azure_deployment = assistant_config["deployment_model"] if "deployment_model" in assistant_config else "gpt-4o"
+    api_version = assistant_config["azure_ai_version"] if "azure_ai_version" in assistant_config else "2024-02-01"
+    temperature= assistant_config["temperature"] if "temperature" in assistant_config else 0
+    max_tokens=assistant_config["max_tokens"] if "max_tokens" in assistant_config else None
+
+    testcase_id = testcase_insert(
+        assistant_name = assistant_name,
+        system_prompt = system_prompt,
+        temperature = temperature,
+        max_tokens = max_tokens,
+        model =  azure_deployment)
+
+    pytest.test_case_id = testcase_id
 
     llm = AzureChatOpenAI(
-        azure_deployment = assistant_config["deployment_model"] if "deployment_model" in assistant_config else "gpt-4o",
-        api_version = assistant_config["azure_ai_version"] if "azure_ai_version" in assistant_config else "2024-02-01",
-        temperature= assistant_config["temperature"] if "temperature" in assistant_config else 0,
-        max_tokens=assistant_config["max_tokens"] if "max_tokens" in assistant_config else None,
-        timeout=None,
-        max_retries=2
+        azure_deployment = azure_deployment,
+        api_version = api_version,
+        temperature = temperature,
+        max_tokens = max_tokens,
+        timeout = None,
+        max_retries = 2
     )
 
     prompt = ChatPromptTemplate.from_messages(

@@ -132,11 +132,17 @@ def map_response_to_dict(response, llm_test_result: dict):
     llm_test_result[ "filtered_violence" ] = None
 
     if "content_filter_results" in response.response_metadata:
-        llm_test_result[ "filtered_hate" ] = response.response_metadata[ "content_filter_results" ][ "hate" ][ "filtered" ]
-        llm_test_result[ "filtered_protected_material_code" ] = response.response_metadata[ "content_filter_results" ][ "protected_material_code" ][ "filtered" ]
-        llm_test_result[ "filtered_protected_material_text" ] = response.response_metadata[ "content_filter_results" ][ "protected_material_text" ][ "filtered" ]
-        llm_test_result[ "filtered_self_harm" ] = response.response_metadata[ "content_filter_results" ][ "self_harm" ][ "filtered" ]
-        llm_test_result[ "filtered_sexual" ] = response.response_metadata[ "content_filter_results" ][ "sexual" ][ "filtered" ]
-        llm_test_result[ "filtered_violence" ] = response.response_metadata[ "content_filter_results" ][ "violence" ][ "filtered" ]
+        content_filter = response.response_metadata[ "content_filter_results" ]
+
+        llm_test_result[ "filtered_hate" ] = content_filter[ "hate" ][ "filtered" ] if "hate" in content_filter else None
+        if "protected_material_code" in content_filter:
+            llm_test_result[ "filtered_protected_material_code" ] = content_filter[ "protected_material_code" ][ "filtered" ]
+
+        if "protected_material_text"  in content_filter:
+            llm_test_result[ "filtered_protected_material_text" ] = content_filter[ "protected_material_text" ][ "filtered" ]
+
+        llm_test_result[ "filtered_self_harm" ] = content_filter[ "self_harm" ][ "filtered" ] if "self_harm" in content_filter else None
+        llm_test_result[ "filtered_sexual" ] = content_filter[ "sexual" ][ "filtered" ]  if "sexual" in content_filter else None
+        llm_test_result[ "filtered_violence" ] = content_filter[ "violence" ][ "filtered" ]  if "violence" in content_filter else None
 
 
