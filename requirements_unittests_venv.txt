@@ -93,6 +93,7 @@ promptflow-tracing==1.16.1
 propcache==0.2.0
 protobuf==4.25.5
 psutil==5.9.8
+psycopg2-binary==2.9.10
 pyarrow==17.0.0
 pycparser==2.22
 pydantic==2.9.2

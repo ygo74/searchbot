@@ -104,3 +104,39 @@ def compare_result(question, expected, current):
 
     data = json.loads(result.content)
     return data
+
+
+def map_response_to_dict(response, llm_test_result: dict):
+
+    # Answer
+    llm_test_result["answer"]  = response.content
+
+    # tokens consumption
+    llm_test_result[ "prompt_tokens" ] = 0
+    llm_test_result[ "completion_tokens" ] = 0
+    if "token_usage" in response.response_metadata:
+        llm_test_result[ "prompt_tokens" ] = response.response_metadata[ "token_usage" ][ "prompt_tokens" ]
+        llm_test_result[ "completion_tokens" ] = response.response_metadata[ "token_usage" ][ "completion_tokens" ]
+
+    # Model info
+    llm_test_result[ "model_name" ] = None
+    if "model_name" in response.response_metadata:
+        llm_test_result[ "model_name" ] = response.response_metadata[ "model_name" ]
+
+    # filtering
+    llm_test_result[ "filtered_hate" ] = None
+    llm_test_result[ "filtered_protected_material_code" ] = None
+    llm_test_result[ "filtered_protected_material_text" ] = None
+    llm_test_result[ "filtered_self_harm" ] = None
+    llm_test_result[ "filtered_sexual" ] = None
+    llm_test_result[ "filtered_violence" ] = None
+
+    if "content_filter_results" in response.response_metadata:
+        llm_test_result[ "filtered_hate" ] = response.response_metadata[ "content_filter_results" ][ "hate" ][ "filtered" ]
+        llm_test_result[ "filtered_protected_material_code" ] = response.response_metadata[ "content_filter_results" ][ "protected_material_code" ][ "filtered" ]
+        llm_test_result[ "filtered_protected_material_text" ] = response.response_metadata[ "content_filter_results" ][ "protected_material_text" ][ "filtered" ]
+        llm_test_result[ "filtered_self_harm" ] = response.response_metadata[ "content_filter_results" ][ "self_harm" ][ "filtered" ]
+        llm_test_result[ "filtered_sexual" ] = response.response_metadata[ "content_filter_results" ][ "sexual" ][ "filtered" ]
+        llm_test_result[ "filtered_violence" ] = response.response_metadata[ "content_filter_results" ][ "violence" ][ "filtered" ]
+
+

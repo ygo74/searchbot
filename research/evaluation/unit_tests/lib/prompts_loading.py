@@ -49,6 +49,10 @@ def load_yaml_files(directory, pattern):
 
     return loaded_data
 
+def extract_names(prompts):
+    """extract name attributes from the prompts"""
+    return [prompt["name"] for prompt in prompts if "name" in prompt]
+
 # Exemple d'utilisation
 if __name__ == "__main__":
     directory_to_search = "./research/evaluation/dataset"  # Remplacez par votre chemin
