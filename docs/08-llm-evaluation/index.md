@@ -56,6 +56,13 @@ pip install langchain-openai langchain_community
 
 ### database storage
 
+
+``` bash
+pip install SQLAlchemy
+pip install psycopg2-binary
+
+```
+
 ``` sql
 CREATE ROLE nom_utilisateur WITH LOGIN PASSWORD 'votre_mot_de_passe';
 

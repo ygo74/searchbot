@@ -29,3 +29,9 @@ pip install langchain
 pip install langchain-openai
 pip install python-dotenv
 ```
+
+## Guides
+
+Sources : <https://python.langchain.com/docs/how_to/>
+
+- How to create a custom LLM class : <https://python.langchain.com/docs/how_to/custom_llm/>
