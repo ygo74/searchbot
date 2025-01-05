@@ -20,7 +20,7 @@ from semantic_kernel.functions.kernel_function_decorator import kernel_function
 from semantic_kernel.functions.kernel_function_from_prompt import KernelFunctionFromPrompt
 from semantic_kernel.kernel import Kernel
 
-# Copyright (c) Microsoft. All rights reserved.
+from openai import AsyncAzureOpenAI
 
 ###################################################################
 # This sample demonstrates how to create a complex agent group   #
@@ -33,21 +33,35 @@ SEARCHER_NAME = "Searcher"
 CRITIC_NAME = "Critic"
 COMPILER_NAME = "Compiler"
 
+TERMINATION_KEYWORD = "TERMINATE"
+
+import httpx
 
 def _create_kernel_with_services() -> Kernel:
+
+    # Configure a custom HTTP client with a timeout
+    http_client = httpx.AsyncClient(timeout=httpx.Timeout(300.0))
+    client = AsyncAzureOpenAI(
+        http_client=http_client,
+        azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
+        api_key=os.getenv("AZURE_OPENAI_API_KEY"),
+        azure_deployment=os.getenv("AZURE_OPENAI_CHAT_DEPLOYMENT_NAME"),
+        api_version=os.getenv("AZURE_OPENAI_API_VERSION"),
+        max_retries=3
+    )
+
     kernel = Kernel()
-    kernel.add_service(AzureChatCompletion(service_id=PLANNER_NAME))
-    kernel.add_service(AzureChatCompletion(service_id=SEARCHER_NAME))
-    kernel.add_service(AzureChatCompletion(service_id=CRITIC_NAME))
-    kernel.add_service(AzureChatCompletion(service_id=COMPILER_NAME))
+    kernel.add_service(AzureChatCompletion(service_id=PLANNER_NAME, async_client=client))
+    kernel.add_service(AzureChatCompletion(service_id=SEARCHER_NAME, async_client=client))
+    kernel.add_service(AzureChatCompletion(service_id=CRITIC_NAME, async_client=client))
+    kernel.add_service(AzureChatCompletion(service_id=COMPILER_NAME, async_client=client))
 
     # Add the Google Search connector
     google_connector = GoogleConnector(api_key=os.getenv("GOOGLE_SEARCH_API_KEY"),
-                                              search_engine_id=os.getenv("GOOGLE_SEARCH_CENTER_CONNECTION_ID"))
+                                        search_engine_id=os.getenv("GOOGLE_SEARCH_CENTER_CONNECTION_ID"))
     kernel.add_plugin(WebSearchEnginePlugin(google_connector), "WebSearch")
 
     return kernel
-
 
 async def main():
     kernel = _create_kernel_with_services()
@@ -92,9 +106,12 @@ async def main():
         kernel=kernel,
         name=CRITIC_NAME,
         instructions="""
-            You are a critical reviewer. Evaluate the quality and accuracy of the search results provided.
-            Identify any missing, inconsistent, or irrelevant information.
-            Suggest improvements or confirm that the results are comprehensive and reliable.
+            You are a critical reviewer. Evaluate the quality and accuracy of the plans and search results provided.
+            For plans, identify any missing steps, unclear instructions, or potential issues.
+            For search results, identify any missing, inconsistent, or irrelevant information.
+            Suggest improvements or confirm that the plans and results are comprehensive and reliable.
+
+            If any agent's response is unsatisfactory, explicitly direct that agent to revise and retry.
         """,
     )
 
@@ -108,34 +125,39 @@ async def main():
             - Title: Summary of Findings
             - Subsections for each query and its results.
             - A concluding section with overall insights and key takeaways.
+
+            If any feedback or results are incomplete, notify the appropriate agent for corrections.
         """,
     )
 
     selection_function = KernelFunctionFromPrompt(
         function_name="selection",
         prompt=f"""
-        Determine which participant takes the next turn in a conversation based on the most recent participant.
-        State only the name of the participant to take the next turn.
-        No participant should take more than one turn in a row.
+        Determine the next participant in a conversation based on the most recent participant's action.
+        State only the name of the next participant to take the turn.
 
-        Choose only from these participants:
+        Choose from these participants:
         - {PLANNER_NAME}
         - {SEARCHER_NAME}
         - {CRITIC_NAME}
         - {COMPILER_NAME}
 
-        Always follow these rules when selecting the next participant:
+        Rules:
         - After user input, it is {PLANNER_NAME}'s turn.
-        - After {PLANNER_NAME} replies, it is {SEARCHER_NAME}'s turn.
-        - After {SEARCHER_NAME} provides results, it is {CRITIC_NAME}'s turn.
-        - After {CRITIC_NAME} completes evaluation, it is {COMPILER_NAME}'s turn.
+        - After {PLANNER_NAME} submits a plan, {CRITIC_NAME} reviews it.
+        - If {CRITIC_NAME} approves the plan, {SEARCHER_NAME} searches.
+        - If {CRITIC_NAME} disapproves, {PLANNER_NAME} revises the plan.
+        - After {SEARCHER_NAME} presents findings, {CRITIC_NAME} reviews them.
+        - If {CRITIC_NAME} approves the findings, {COMPILER_NAME} compiles the results.
+        - If {CRITIC_NAME} disapproves the findings, {SEARCHER_NAME} revises the search.
+        - After {COMPILER_NAME} compiles the response, {CRITIC_NAME} reviews it.
+        - If {CRITIC_NAME} approves the response, the conversation ends.
+        - If {CRITIC_NAME} disapproves, {COMPILER_NAME} revises the response.
 
         History:
         {{{{$history}}}}
         """,
     )
-
-    TERMINATION_KEYWORD = "TERMINATE"
 
     termination_function = KernelFunctionFromPrompt(
         function_name="termination",
@@ -163,7 +185,7 @@ async def main():
             agents=[agent_compiler],
             function=termination_function,
             kernel=kernel,
-            result_parser=lambda result: TERMINATION_KEYWORD in str(result.value[0]).lower(),
+            result_parser=lambda result: TERMINATION_KEYWORD in str(result.value).lower(),
             history_variable_name="history",
             maximum_iterations=10,
         ),
@@ -204,7 +226,6 @@ async def main():
         if chat.is_complete:
             is_complete = True
             break
-
 
 if __name__ == "__main__":
     load_dotenv()
