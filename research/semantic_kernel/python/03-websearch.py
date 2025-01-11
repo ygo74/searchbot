@@ -28,12 +28,34 @@ from openai import AsyncAzureOpenAI
 # to Planner and Searcher agents.                               #
 ###################################################################
 
-PLANNER_NAME = "Planner"
-SEARCHER_NAME = "Searcher"
-CRITIC_NAME = "Critic"
-COMPILER_NAME = "Compiler"
+RESEARCHER_MANAGER = "Manager"
+SEARCHER_NAME = "Web_Searcher"
 
 TERMINATION_KEYWORD = "TERMINATE"
+
+from lib.websearch import google_search, google_search_with_article
+from typing import Annotated
+
+class WebSearchPlugin:
+    @kernel_function(description="Search the web for information based on a query.")
+    def search(self, query: str, num_results: int = 2, max_chars: int = 0) -> Annotated[str, "Returns the web site pages links and body."]:
+
+        print(f"Searching the web for information based on the query: {query}")
+        search_results = google_search_with_article(query=query, num_results=num_results, max_chars=max_chars)
+        result=""
+        for search_result in search_results:
+            result += f"Title : {search_result['title']}\n"
+            result += f"Link : {search_result['link']}\n"
+            result += f"Snippet : {search_result['snippet']}\n"
+            result += f"Body : {search_result['body']}\n\n"
+
+        print("====================================")
+        print(result)
+        print("")
+        print("====================================")
+        print("")
+        return result
+
 
 import httpx
 
@@ -51,15 +73,15 @@ def _create_kernel_with_services() -> Kernel:
     )
 
     kernel = Kernel()
-    kernel.add_service(AzureChatCompletion(service_id=PLANNER_NAME, async_client=client))
+    kernel.add_service(AzureChatCompletion(service_id=RESEARCHER_MANAGER, async_client=client))
     kernel.add_service(AzureChatCompletion(service_id=SEARCHER_NAME, async_client=client))
-    kernel.add_service(AzureChatCompletion(service_id=CRITIC_NAME, async_client=client))
-    kernel.add_service(AzureChatCompletion(service_id=COMPILER_NAME, async_client=client))
 
     # Add the Google Search connector
-    google_connector = GoogleConnector(api_key=os.getenv("GOOGLE_SEARCH_API_KEY"),
-                                        search_engine_id=os.getenv("GOOGLE_SEARCH_CENTER_CONNECTION_ID"))
-    kernel.add_plugin(WebSearchEnginePlugin(google_connector), "WebSearch")
+    # google_connector = GoogleConnector(api_key=os.getenv("GOOGLE_SEARCH_API_KEY"),
+    #                                     search_engine_id=os.getenv("GOOGLE_SEARCH_CENTER_CONNECTION_ID"))
+    # kernel.add_plugin(WebSearchEnginePlugin(google_connector), "WebSearch")
+
+    kernel.add_plugin(WebSearchPlugin(), plugin_name="WebSearch")
 
     return kernel
 
@@ -69,18 +91,31 @@ async def main():
     settings = kernel.get_prompt_execution_settings_from_service_id(service_id=SEARCHER_NAME)
     settings.function_choice_behavior = FunctionChoiceBehavior.Auto()
 
-    agent_planner = ChatCompletionAgent(
-        service_id=PLANNER_NAME,
+    research_manager = ChatCompletionAgent(
+        service_id=RESEARCHER_MANAGER,
         kernel=kernel,
-        name=PLANNER_NAME,
-        instructions="""
-            You are a planning expert. Analyze the user's query and generate a detailed, step-by-step plan to gather accurate and specific information.
-            Ensure the plan is actionable, with each step containing:
-            - A precise query to search.
-            - The objective of the search.
-            - Clear criteria for determining when the step is complete.
+        name=RESEARCHER_MANAGER,
+        instructions=f"""
+            You are a research manager, you are harsh, you are relentless.
+            You will work task by task.
 
+            Analyze the user's query and understantd the goal of the user's query.
             If the query is unclear, ask the user for clarification before proceeding.
+
+            You will firstly try to generate 2 actions {SEARCHER_NAME} agent can take to find the information needed by the user's query.
+            - Try to avoid G2, or other gated website that don't allow srcabing
+            - Define a precise query to search.
+            - Define the objective of the search.
+            - Define clear criteria for determining when the step is complete.
+
+
+            You will reviewed the result from the {SEARCHER_NAME}, and always push back if {SEARCHER_NAME} didin't find the information.
+            Be persistent, say "No, you have to find the information, try again and propose 1 next method to try, if the {SEARCHER_NAME} want to get away.
+
+            You will compile all results from {SEARCHER_NAME} and generate a comprehensive report of information found by the team.
+            the report will contain facts, links and samples.
+
+            When wou gathered all information, you will say "TERMINATE"
         """,
     )
 
@@ -88,47 +123,25 @@ async def main():
         service_id=SEARCHER_NAME,
         kernel=kernel,
         name=SEARCHER_NAME,
-        instructions="""
-            You are a web search assistant. Execute the provided plan by performing precise web searches.
-            Extract relevant and credible information while citing sources.
-            For each step:
-            - Report the query used.
-            - Summarize the results concisely.
-            - Highlight the most relevant findings.
+        instructions=f"""
+            You are a world class researcher, who can do detailed research on any topic and produce facts based results;
+            Execute the provided requested searches by performing precise web searches.
+            you do not make things up, you will try as hard as possible to gather facts & data to back up the {RESEARCHER_MANAGER}
 
-            If the results are insufficient, notify the user or planner for adjustments.
+            You make only one web search call at a time.
+            Once you have the results, you never do calculations based on them.
+            You never try to generate reports, you only return the search results to your {RESEARCHER_MANAGER}
+
+            Please make sure you complete the objective above with the following rules:
+            1/ You should do enough research to gather as much information as possible about the objective
+            2/ If there are url of relevant links & articles, you will scrape it to gather more information
+            3/ After scraping & search, you should think "is there any new things i should search & scraping based on the data I collected to increase research quality?" If answer is yes, continue; But don't do this more than 3 iteratins
+            4/ You should not make things up, you should only write facts & data that you have gathered
+            5/ In the final output, You should include all reference data & links to back up your {RESEARCHER_MANAGER};
         """,
         execution_settings=settings,
     )
 
-    agent_critic = ChatCompletionAgent(
-        service_id=CRITIC_NAME,
-        kernel=kernel,
-        name=CRITIC_NAME,
-        instructions="""
-            You are a critical reviewer. Evaluate the quality and accuracy of the plans and search results provided.
-            For plans, identify any missing steps, unclear instructions, or potential issues.
-            For search results, identify any missing, inconsistent, or irrelevant information.
-            Suggest improvements or confirm that the plans and results are comprehensive and reliable.
-
-            If any agent's response is unsatisfactory, explicitly direct that agent to revise and retry.
-        """,
-    )
-
-    agent_compiler = ChatCompletionAgent(
-        service_id=COMPILER_NAME,
-        kernel=kernel,
-        name=COMPILER_NAME,
-        instructions="""
-            You are a content compiler. Collect all relevant search results and feedback.
-            Generate a single markdown document summarizing all the findings, structured as follows:
-            - Title: Summary of Findings
-            - Subsections for each query and its results.
-            - A concluding section with overall insights and key takeaways.
-
-            If any feedback or results are incomplete, notify the appropriate agent for corrections.
-        """,
-    )
 
     selection_function = KernelFunctionFromPrompt(
         function_name="selection",
@@ -137,22 +150,13 @@ async def main():
         State only the name of the next participant to take the turn.
 
         Choose from these participants:
-        - {PLANNER_NAME}
+        - {RESEARCHER_MANAGER}
         - {SEARCHER_NAME}
-        - {CRITIC_NAME}
-        - {COMPILER_NAME}
 
         Rules:
-        - After user input, it is {PLANNER_NAME}'s turn.
-        - After {PLANNER_NAME} submits a plan, {CRITIC_NAME} reviews it.
-        - If {CRITIC_NAME} approves the plan, {SEARCHER_NAME} searches.
-        - If {CRITIC_NAME} disapproves, {PLANNER_NAME} revises the plan.
-        - After {SEARCHER_NAME} presents findings, {CRITIC_NAME} reviews them.
-        - If {CRITIC_NAME} approves the findings, {COMPILER_NAME} compiles the results.
-        - If {CRITIC_NAME} disapproves the findings, {SEARCHER_NAME} revises the search.
-        - After {COMPILER_NAME} compiles the response, {CRITIC_NAME} reviews it.
-        - If {CRITIC_NAME} approves the response, the conversation ends.
-        - If {CRITIC_NAME} disapproves, {COMPILER_NAME} revises the response.
+        - After user input, it is {RESEARCHER_MANAGER}'s turn.
+        - After {RESEARCHER_MANAGER} defines search queries, {SEARCHER_NAME} searches it.
+        - After {SEARCHER_NAME} presents findings, {RESEARCHER_MANAGER} reviews them and compile them.
 
         History:
         {{{{$history}}}}
@@ -173,16 +177,16 @@ async def main():
     )
 
     chat = AgentGroupChat(
-        agents=[agent_planner, agent_searcher, agent_critic, agent_compiler],
-        selection_strategy=KernelFunctionSelectionStrategy(
-            function=selection_function,
-            kernel=kernel,
-            result_parser=lambda result: str(result.value[0]) if result.value is not None else PLANNER_NAME,
-            agent_variable_name="agents",
-            history_variable_name="history",
-        ),
+        agents=[research_manager, agent_searcher],
+        # selection_strategy=KernelFunctionSelectionStrategy(
+        #     function=selection_function,
+        #     kernel=kernel,
+        #     result_parser=lambda result: str(result.value[0]) if result.value is not None else RESEARCHER_MANAGER,
+        #     agent_variable_name="agents",
+        #     history_variable_name="history",
+        # ),
         termination_strategy=KernelFunctionTerminationStrategy(
-            agents=[agent_compiler],
+            agents=[research_manager],
             function=termination_function,
             kernel=kernel,
             result_parser=lambda result: TERMINATION_KEYWORD in str(result.value).lower(),
@@ -191,41 +195,50 @@ async def main():
         ),
     )
 
-    is_complete: bool = False
-    while not is_complete:
-        user_input = input("User:> ")
-        if not user_input:
-            continue
+    user_input = """
+        How to start with semantic kernel AgentGroupChat in python?
+        Provides a full detailed real implementation sample of two agents which search results on Internet thanks to a custom plugin.
+    """
+    await chat.add_chat_message(ChatMessageContent(role=AuthorRole.USER, content=user_input))
 
-        if user_input.lower() == "exit":
-            is_complete = True
-            break
+    async for response in chat.invoke():
+        print(f"# {response.role} - {response.name or '*'}: '{response.content}'")
 
-        if user_input.lower() == "reset":
-            await chat.reset()
-            print("[Conversation has been reset]")
-            continue
+    # is_complete: bool = False
+    # while not is_complete:
+    #     user_input = input("User:> ")
+    #     if not user_input:
+    #         continue
 
-        if user_input.startswith("@") and len(user_input) > 1:
-            file_path = user_input[1:]
-            try:
-                if not os.path.exists(file_path):
-                    print(f"Unable to access file: {file_path}")
-                    continue
-                with open(file_path) as file:
-                    user_input = file.read()
-            except Exception:
-                print(f"Unable to access file: {file_path}")
-                continue
+    #     if user_input.lower() == "exit":
+    #         is_complete = True
+    #         break
 
-        await chat.add_chat_message(ChatMessageContent(role=AuthorRole.USER, content=user_input))
+    #     if user_input.lower() == "reset":
+    #         await chat.reset()
+    #         print("[Conversation has been reset]")
+    #         continue
 
-        async for response in chat.invoke():
-            print(f"# {response.role} - {response.name or '*'}: '{response.content}'")
+    #     if user_input.startswith("@") and len(user_input) > 1:
+    #         file_path = user_input[1:]
+    #         try:
+    #             if not os.path.exists(file_path):
+    #                 print(f"Unable to access file: {file_path}")
+    #                 continue
+    #             with open(file_path) as file:
+    #                 user_input = file.read()
+    #         except Exception:
+    #             print(f"Unable to access file: {file_path}")
+    #             continue
 
-        if chat.is_complete:
-            is_complete = True
-            break
+    #     await chat.add_chat_message(ChatMessageContent(role=AuthorRole.USER, content=user_input))
+
+    #     async for response in chat.invoke():
+    #         print(f"# {response.role} - {response.name or '*'}: '{response.content}'")
+
+    #     if chat.is_complete:
+    #         is_complete = True
+    #         break
 
 if __name__ == "__main__":
     load_dotenv()
