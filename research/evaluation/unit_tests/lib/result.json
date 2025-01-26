@@ -1,0 +1,45 @@
+{
+    "token_usage": {
+        "completion_tokens": 96,
+        "prompt_tokens": 851,
+        "total_tokens": 947,
+        "completion_tokens_details": None,
+        "prompt_tokens_details": None
+    },
+    "model_name": "gpt-4o-2024-05-13",
+    "system_fingerprint": "fp_67802d9a6d",
+    "prompt_filter_results": [
+        {
+            "prompt_index": 0,
+            "content_filter_results": {}
+        }
+    ],
+    "finish_reason": "stop",
+    "logprobs": None,
+    "content_filter_results": {
+        "hate": {
+            "filtered": False,
+            "severity": "safe"
+        },
+        "protected_material_code": {
+            "filtered": False,
+            "detected": False
+        },
+        "protected_material_text": {
+            "filtered": False,
+            "detected": False
+        },
+        "self_harm": {
+            "filtered": False,
+            "severity": "safe"
+        },
+        "sexual": {
+            "filtered": False,
+            "severity": "safe"
+        },
+        "violence": {
+            "filtered": False,
+            "severity": "safe"
+        }
+    }
+}

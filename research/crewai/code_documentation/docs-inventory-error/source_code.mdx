@@ -1,0 +1,65 @@
+# Source Code Documentation
+
+## Overview
+
+The Ansible Inventory project is a comprehensive system built to manage inventory data effectively. It is integrated with .NET services and various plugins, demonstrating a complex architecture with multiple components. The project structure is organized into several key services, each fulfilling distinct roles within the system.
+
+## Key Components
+
+### Inventory.Common
+- Provides shared utilities and common functionality used across different services.
+- Implements specifications using Ardalis library for streamlined data handling.
+
+### Inventory.Configuration
+- Manages configuration settings required for different environments and services.
+- Utilizes .NET configuration providers for robust settings management.
+
+### Inventory.Devices
+- Handles device-specific operations and management tasks.
+- Integrates with external APIs to synchronize device data.
+
+### Inventory.Gateway
+- Acts as the entry point for API requests, routing them to appropriate services.
+- Employs HotChocolate for GraphQL services to provide flexible querying capabilities.
+
+### Inventory.Networks
+- Manages network-related data and operations.
+- Supports integration with networking hardware and software for data collection.
+
+### Inventory.Provisioning
+- Automates the provisioning of resources and infrastructure required by other services.
+- Uses Docker for containerization to ensure consistent deployment across environments.
+
+### Inventory.Plugins
+- Supports integration with third-party plugins to extend functionality.
+- Plugin architecture allows for easy addition of new features without altering core codebase.
+
+## Development Tools
+
+- **AutoMapper**: Facilitates object-object mapping to simplify data transformations.
+- **Elastic APM**: Provides performance monitoring and observability across services.
+- **FluentValidation**: Ensures data integrity through comprehensive input validation.
+- **MediatR**: Implements the mediator pattern for decoupling request handling logic.
+- **OpenTelemetry**: Collects telemetry data to enhance monitoring and diagnostics.
+- **Serilog**: Offers structured logging capabilities to improve traceability and debugging.
+
+## Integration Patterns
+
+The project utilizes a microservices architecture, where each service is responsible for specific domains. Services communicate through well-defined APIs, enabling scalable and maintainable interactions. GraphQL is used to facilitate flexible data querying, allowing clients to specify precisely what data they need.
+
+## Troubleshooting Scenarios
+
+Common issues include:
+- Configuration mismatches, which can be resolved by verifying environment-specific settings.
+- Network connectivity problems, often requiring checks on external dependencies and firewall rules.
+- Plugin compatibility issues, usually fixed by ensuring plugins are updated to match the core system version.
+
+## Terminology
+
+Consistent terminology is maintained throughout the project to align with codebase conventions. Component names in documentation directly reflect those in the implementation, ensuring clarity and ease of navigation.
+
+## Mermaid Diagrams
+
+Mermaid diagrams are used to visualize system flows, providing clear representations of data and control paths. All diagram components are verified against the codebase to ensure accuracy. Mermaid blocks are wrapped in ```mermaid``` tags for proper rendering.
+
+This documentation aims to provide a clear and accurate representation of the Ansible Inventory project's source code, ensuring alignment with the current implementation and facilitating ease of understanding for developers and stakeholders alike.

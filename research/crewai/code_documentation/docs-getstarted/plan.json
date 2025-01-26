@@ -1,0 +1,47 @@
+{
+  "overview": "This documentation plan is designed to guide developers through the 'Get-Started' project, which facilitates interactions with language models using Azure's GPT-based models. The project uses a multi-agent system to manage tasks and roles efficiently.",
+  "docs": [
+    {
+      "title": "Project Overview and Purpose",
+      "description": "This document provides a comprehensive overview of the 'Get-Started' project, explaining its purpose in facilitating structured interactions with Azure's GPT-based models through a multi-agent system.",
+      "prerequisites": "Basic understanding of language models and multi-agent systems.",
+      "examples": [],
+      "goal": "To give developers a clear understanding of the project's objectives and high-level functionality."
+    },
+    {
+      "title": "System Architecture and Design Decisions",
+      "description": "Detailed explanation of the system architecture, including key design decisions made during development. It covers the role of main scripts and configuration files.",
+      "prerequisites": "Familiarity with Python programming and YAML configuration files.",
+      "examples": [],
+      "goal": "To help developers understand the structural organization and rationale behind architectural choices."
+    },
+    {
+      "title": "Core Workflows and Data Flows",
+      "description": "This document describes the core workflows involving agents and tasks, including how data flows through the system from input to output.",
+      "prerequisites": "Understanding of system architecture and agent-based systems.",
+      "examples": ["Example of agent initialization and task execution."],
+      "goal": "To provide a detailed walkthrough of how tasks are processed within the multi-agent framework."
+    },
+    {
+      "title": "High-Level Component Interactions",
+      "description": "Exploration of how different components such as LLM, Agent, Task, and Crew classes interact within the system.",
+      "prerequisites": "Knowledge of object-oriented programming concepts.",
+      "examples": ["Code snippets demonstrating interactions between agents and tasks."],
+      "goal": "To illustrate the interplay between various components in accomplishing project goals."
+    },
+    {
+      "title": "Getting Started Guide",
+      "description": "A step-by-step guide for setting up the development environment and running the initial scripts to interact with the language models.",
+      "prerequisites": "Access to Azure services and basic command line knowledge.",
+      "examples": ["Instructions for setting up environment variables and running '01-llm.py' script."],
+      "goal": "To enable developers to quickly start working with the project by providing initial setup instructions."
+    },
+    {
+      "title": "Advanced Configuration and Customization",
+      "description": "Guide on customizing agent behaviors and task parameters using configuration files.",
+      "prerequisites": "Familiarity with YAML syntax and configuration management.",
+      "examples": ["Examples of modifying 'agents.yaml' and 'tasks.yaml' to alter agent roles and tasks."],
+      "goal": "To empower developers to tailor the system's functionality to their specific needs."
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+2024-10-20 09:21:00 +0200   21912 execution.flow     WARNING  Failed to calculate metrics due to exception: unsupported operand type(s) for +: 'int' and 'NoneType'.

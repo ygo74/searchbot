@@ -1,0 +1,230 @@
+{
+  "flow_runs": [
+    {
+      "run_id": "d6ed00d9-33f8-4d5d-a05a-a845327fad2a_0",
+      "status": "Completed",
+      "error": null,
+      "inputs": {
+        "question": "What is Prompt flow?"
+      },
+      "output": {
+        "output": "Prompt flow is a concept often associated with the design and management of prompts in conversational AI systems, such as chatbots or virtual assistants. It involves creating a structured sequence of prompts and responses to guide the interaction between the user and the AI. The goal is to ensure that the conversation flows naturally and effectively, leading to a satisfactory user experience.\n\nKey aspects of prompt flow include:\n\n1. **Context Management**: Keeping track of the conversation context to ensure that responses are relevant and coherent.\n2. **User Intent Recognition**: Identifying the user's intent to provide appropriate responses.\n3. **Error Handling**: Managing misunderstandings or incorrect inputs gracefully.\n4. **Personalization**: Tailoring responses based on user preferences and history.\n5. **Engagement**: Maintaining user interest and encouraging continued interaction.\n\nIn practical terms, prompt flow can be visualized as a flowchart or a decision tree, where each node represents a prompt or a user input, and the branches represent possible responses or actions based on the input. This structured approach helps in designing more intuitive and effective conversational experiences."
+      },
+      "metrics": null,
+      "request": null,
+      "parent_run_id": "d6ed00d9-33f8-4d5d-a05a-a845327fad2a",
+      "root_run_id": "d6ed00d9-33f8-4d5d-a05a-a845327fad2a",
+      "source_run_id": null,
+      "flow_id": "default_flow_id",
+      "start_time": "2024-10-20T07:20:47.038300Z",
+      "end_time": "2024-10-20T07:21:00.652230Z",
+      "index": 0,
+      "api_calls": [
+        {
+          "name": "Minimal Chat",
+          "type": "Function",
+          "inputs": {
+            "question": "What is Prompt flow?"
+          },
+          "output": "Prompt flow is a concept often associated with the design and management of prompts in conversational AI systems, such as chatbots or virtual assistants. It involves creating a structured sequence of prompts and responses to guide the interaction between the user and the AI. The goal is to ensure that the conversation flows naturally and effectively, leading to a satisfactory user experience.\n\nKey aspects of prompt flow include:\n\n1. **Context Management**: Keeping track of the conversation context to ensure that responses are relevant and coherent.\n2. **User Intent Recognition**: Identifying the user's intent to provide appropriate responses.\n3. **Error Handling**: Managing misunderstandings or incorrect inputs gracefully.\n4. **Personalization**: Tailoring responses based on user preferences and history.\n5. **Engagement**: Maintaining user interest and encouraging continued interaction.\n\nIn practical terms, prompt flow can be visualized as a flowchart or a decision tree, where each node represents a prompt or a user input, and the branches represent possible responses or actions based on the input. This structured approach helps in designing more intuitive and effective conversational experiences.",
+          "start_time": 1729401647.0383,
+          "end_time": 1729401660.650235,
+          "error": null,
+          "children": [
+            {
+              "name": "Prompty",
+              "type": "Function",
+              "inputs": {
+                "question": "What is Prompt flow?"
+              },
+              "output": "Prompt flow is a concept often associated with the design and management of prompts in conversational AI systems, such as chatbots or virtual assistants. It involves creating a structured sequence of prompts and responses to guide the interaction between the user and the AI. The goal is to ensure that the conversation flows naturally and effectively, leading to a satisfactory user experience.\n\nKey aspects of prompt flow include:\n\n1. **Context Management**: Keeping track of the conversation context to ensure that responses are relevant and coherent.\n2. **User Intent Recognition**: Identifying the user's intent to provide appropriate responses.\n3. **Error Handling**: Managing misunderstandings or incorrect inputs gracefully.\n4. **Personalization**: Tailoring responses based on user preferences and history.\n5. **Engagement**: Maintaining user interest and encouraging continued interaction.\n\nIn practical terms, prompt flow can be visualized as a flowchart or a decision tree, where each node represents a prompt or a user input, and the branches represent possible responses or actions based on the input. This structured approach helps in designing more intuitive and effective conversational experiences.",
+              "start_time": 1729401647.039299,
+              "end_time": 1729401660.649247,
+              "error": null,
+              "children": [
+                {
+                  "name": "convert_prompt_template",
+                  "type": "Function",
+                  "inputs": {
+                    "template": "\nsystem:\nYou are a helpful assistant.\n\nuser:\n{{question}}\n",
+                    "inputs": {
+                      "question": "What is Prompt flow?"
+                    }
+                  },
+                  "output": [
+                    {
+                      "role": "system",
+                      "content": "You are a helpful assistant."
+                    },
+                    {
+                      "role": "user",
+                      "content": "What is Prompt flow?"
+                    }
+                  ],
+                  "start_time": 1729401647.231295,
+                  "end_time": 1729401647.233296,
+                  "error": null,
+                  "children": [],
+                  "node_name": null,
+                  "parent_id": "e06a5f27-ee94-4ad5-ae9c-0d62b8e4b969",
+                  "id": "8d40cc99-3b82-4940-9838-b993a6075aca",
+                  "function": "convert_prompt_template",
+                  "system_metrics": {}
+                },
+                {
+                  "name": "openai_chat",
+                  "type": "LLM",
+                  "inputs": {
+                    "temperature": 0.2,
+                    "max_tokens": 1024,
+                    "model": "gpt-4o",
+                    "messages": [
+                      {
+                        "role": "system",
+                        "content": "You are a helpful assistant."
+                      },
+                      {
+                        "role": "user",
+                        "content": "What is Prompt flow?"
+                      }
+                    ]
+                  },
+                  "output": {
+                    "id": "chatcmpl-AKKXBLua24nHQkd2MIaL1VwXmmZMT",
+                    "choices": [
+                      {
+                        "finish_reason": "stop",
+                        "index": 0,
+                        "logprobs": null,
+                        "message": {
+                          "content": "Prompt flow is a concept often associated with the design and management of prompts in conversational AI systems, such as chatbots or virtual assistants. It involves creating a structured sequence of prompts and responses to guide the interaction between the user and the AI. The goal is to ensure that the conversation flows naturally and effectively, leading to a satisfactory user experience.\n\nKey aspects of prompt flow include:\n\n1. **Context Management**: Keeping track of the conversation context to ensure that responses are relevant and coherent.\n2. **User Intent Recognition**: Identifying the user's intent to provide appropriate responses.\n3. **Error Handling**: Managing misunderstandings or incorrect inputs gracefully.\n4. **Personalization**: Tailoring responses based on user preferences and history.\n5. **Engagement**: Maintaining user interest and encouraging continued interaction.\n\nIn practical terms, prompt flow can be visualized as a flowchart or a decision tree, where each node represents a prompt or a user input, and the branches represent possible responses or actions based on the input. This structured approach helps in designing more intuitive and effective conversational experiences.",
+                          "refusal": null,
+                          "role": "assistant",
+                          "audio": null,
+                          "function_call": null,
+                          "tool_calls": null
+                        },
+                        "content_filter_results": {
+                          "hate": {
+                            "filtered": false,
+                            "severity": "safe"
+                          },
+                          "protected_material_code": {
+                            "filtered": false,
+                            "detected": false
+                          },
+                          "protected_material_text": {
+                            "filtered": false,
+                            "detected": false
+                          },
+                          "self_harm": {
+                            "filtered": false,
+                            "severity": "safe"
+                          },
+                          "sexual": {
+                            "filtered": false,
+                            "severity": "safe"
+                          },
+                          "violence": {
+                            "filtered": false,
+                            "severity": "safe"
+                          }
+                        }
+                      }
+                    ],
+                    "created": 1729408857,
+                    "model": "gpt-4o-2024-05-13",
+                    "object": "chat.completion",
+                    "service_tier": null,
+                    "system_fingerprint": "fp_67802d9a6d",
+                    "usage": {
+                      "completion_tokens": 218,
+                      "prompt_tokens": 22,
+                      "total_tokens": 240,
+                      "completion_tokens_details": null,
+                      "prompt_tokens_details": null
+                    },
+                    "prompt_filter_results": [
+                      {
+                        "prompt_index": 0,
+                        "content_filter_results": {
+                          "hate": {
+                            "filtered": false,
+                            "severity": "safe"
+                          },
+                          "jailbreak": {
+                            "filtered": false,
+                            "detected": false
+                          },
+                          "self_harm": {
+                            "filtered": false,
+                            "severity": "safe"
+                          },
+                          "sexual": {
+                            "filtered": false,
+                            "severity": "safe"
+                          },
+                          "violence": {
+                            "filtered": false,
+                            "severity": "safe"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "start_time": 1729401647.605306,
+                  "end_time": 1729401660.648232,
+                  "error": null,
+                  "children": [],
+                  "node_name": null,
+                  "parent_id": "e06a5f27-ee94-4ad5-ae9c-0d62b8e4b969",
+                  "id": "7dd356ff-73d8-4312-819e-1d603848bb32",
+                  "function": "openai.resources.chat.completions.Completions.create",
+                  "system_metrics": {
+                    "completion_tokens": 218,
+                    "prompt_tokens": 22,
+                    "total_tokens": 240
+                  }
+                }
+              ],
+              "node_name": null,
+              "parent_id": "9f8eec57-c99a-4f24-85cd-b7bb1939b207",
+              "id": "e06a5f27-ee94-4ad5-ae9c-0d62b8e4b969",
+              "function": "Prompty",
+              "system_metrics": {
+                "completion_tokens": 218,
+                "prompt_tokens": 22,
+                "total_tokens": 240
+              }
+            }
+          ],
+          "node_name": null,
+          "parent_id": "",
+          "id": "9f8eec57-c99a-4f24-85cd-b7bb1939b207",
+          "function": "Prompty",
+          "system_metrics": {
+            "completion_tokens": 218,
+            "prompt_tokens": 22,
+            "total_tokens": 240
+          }
+        }
+      ],
+      "name": "",
+      "description": "",
+      "tags": null,
+      "system_metrics": {
+        "completion_tokens": 218,
+        "prompt_tokens": 22,
+        "total_tokens": 240,
+        "duration": 13.61393
+      },
+      "result": {
+        "output": "Prompt flow is a concept often associated with the design and management of prompts in conversational AI systems, such as chatbots or virtual assistants. It involves creating a structured sequence of prompts and responses to guide the interaction between the user and the AI. The goal is to ensure that the conversation flows naturally and effectively, leading to a satisfactory user experience.\n\nKey aspects of prompt flow include:\n\n1. **Context Management**: Keeping track of the conversation context to ensure that responses are relevant and coherent.\n2. **User Intent Recognition**: Identifying the user's intent to provide appropriate responses.\n3. **Error Handling**: Managing misunderstandings or incorrect inputs gracefully.\n4. **Personalization**: Tailoring responses based on user preferences and history.\n5. **Engagement**: Maintaining user interest and encouraging continued interaction.\n\nIn practical terms, prompt flow can be visualized as a flowchart or a decision tree, where each node represents a prompt or a user input, and the branches represent possible responses or actions based on the input. This structured approach helps in designing more intuitive and effective conversational experiences."
+      },
+      "upload_metrics": false,
+      "otel_trace_id": "0xac0da48b304d420a2dad665038f0b742",
+      "message_format": "basic"
+    }
+  ],
+  "node_runs": []
+}

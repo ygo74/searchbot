@@ -1,0 +1,230 @@
+{
+  "flow_runs": [
+    {
+      "run_id": "cd116fae-83a7-419f-aaf9-d8dbc66f5250_0",
+      "status": "Completed",
+      "error": null,
+      "inputs": {
+        "question": "What's the capital of France?"
+      },
+      "output": {
+        "output": "The capital of France is Paris."
+      },
+      "metrics": null,
+      "request": null,
+      "parent_run_id": "cd116fae-83a7-419f-aaf9-d8dbc66f5250",
+      "root_run_id": "cd116fae-83a7-419f-aaf9-d8dbc66f5250",
+      "source_run_id": null,
+      "flow_id": "default_flow_id",
+      "start_time": "2024-10-20T07:08:54.579009Z",
+      "end_time": "2024-10-20T07:09:06.231376Z",
+      "index": 0,
+      "api_calls": [
+        {
+          "name": "chat",
+          "type": "Flow",
+          "inputs": {
+            "question": "What's the capital of France?"
+          },
+          "output": "The capital of France is Paris.",
+          "start_time": 1729400934.579009,
+          "end_time": 1729400946.230363,
+          "error": null,
+          "children": [
+            {
+              "name": "Prompty",
+              "type": "Function",
+              "inputs": {
+                "question": "What's the capital of France?"
+              },
+              "output": "The capital of France is Paris.",
+              "start_time": 1729400934.584009,
+              "end_time": 1729400946.229379,
+              "error": null,
+              "children": [
+                {
+                  "name": "convert_prompt_template",
+                  "type": "Function",
+                  "inputs": {
+                    "template": "\nsystem:\nYou are a helpful assistant.\n\nuser:\n{{question}}\n",
+                    "inputs": {
+                      "question": "What's the capital of France?"
+                    }
+                  },
+                  "output": [
+                    {
+                      "role": "system",
+                      "content": "You are a helpful assistant."
+                    },
+                    {
+                      "role": "user",
+                      "content": "What's the capital of France?"
+                    }
+                  ],
+                  "start_time": 1729400934.58501,
+                  "end_time": 1729400934.588011,
+                  "error": null,
+                  "children": [],
+                  "node_name": null,
+                  "parent_id": "133359c5-5560-4188-8907-3ec9a6aeb119",
+                  "id": "88ee0653-9c69-4aea-9c7b-81bbbd295b6a",
+                  "function": "convert_prompt_template",
+                  "system_metrics": {}
+                },
+                {
+                  "name": "openai_chat",
+                  "type": "LLM",
+                  "inputs": {
+                    "temperature": 0.2,
+                    "max_tokens": 1024,
+                    "model": "gpt-4o",
+                    "messages": [
+                      {
+                        "role": "system",
+                        "content": "You are a helpful assistant."
+                      },
+                      {
+                        "role": "user",
+                        "content": "What's the capital of France?"
+                      }
+                    ]
+                  },
+                  "output": {
+                    "id": "chatcmpl-AKKLgSiQq9l1KSy0mhIAe9Zm0nJtx",
+                    "choices": [
+                      {
+                        "finish_reason": "stop",
+                        "index": 0,
+                        "logprobs": null,
+                        "message": {
+                          "content": "The capital of France is Paris.",
+                          "refusal": null,
+                          "role": "assistant",
+                          "audio": null,
+                          "function_call": null,
+                          "tool_calls": null
+                        },
+                        "content_filter_results": {
+                          "hate": {
+                            "filtered": false,
+                            "severity": "safe"
+                          },
+                          "protected_material_code": {
+                            "filtered": false,
+                            "detected": false
+                          },
+                          "protected_material_text": {
+                            "filtered": false,
+                            "detected": false
+                          },
+                          "self_harm": {
+                            "filtered": false,
+                            "severity": "safe"
+                          },
+                          "sexual": {
+                            "filtered": false,
+                            "severity": "safe"
+                          },
+                          "violence": {
+                            "filtered": false,
+                            "severity": "safe"
+                          }
+                        }
+                      }
+                    ],
+                    "created": 1729408144,
+                    "model": "gpt-4o-2024-05-13",
+                    "object": "chat.completion",
+                    "service_tier": null,
+                    "system_fingerprint": "fp_67802d9a6d",
+                    "usage": {
+                      "completion_tokens": 7,
+                      "prompt_tokens": 23,
+                      "total_tokens": 30,
+                      "completion_tokens_details": null,
+                      "prompt_tokens_details": null
+                    },
+                    "prompt_filter_results": [
+                      {
+                        "prompt_index": 0,
+                        "content_filter_results": {
+                          "hate": {
+                            "filtered": false,
+                            "severity": "safe"
+                          },
+                          "jailbreak": {
+                            "filtered": false,
+                            "detected": false
+                          },
+                          "self_harm": {
+                            "filtered": false,
+                            "severity": "safe"
+                          },
+                          "sexual": {
+                            "filtered": false,
+                            "severity": "safe"
+                          },
+                          "violence": {
+                            "filtered": false,
+                            "severity": "safe"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "start_time": 1729400934.943012,
+                  "end_time": 1729400946.227364,
+                  "error": null,
+                  "children": [],
+                  "node_name": null,
+                  "parent_id": "133359c5-5560-4188-8907-3ec9a6aeb119",
+                  "id": "a53227b7-1f6d-4554-aba8-3a8536c5b3b6",
+                  "function": "openai.resources.chat.completions.Completions.create",
+                  "system_metrics": {
+                    "completion_tokens": 7,
+                    "prompt_tokens": 23,
+                    "total_tokens": 30
+                  }
+                }
+              ],
+              "node_name": null,
+              "parent_id": "1965dc38-448b-42d1-ad79-d11436a19647",
+              "id": "133359c5-5560-4188-8907-3ec9a6aeb119",
+              "function": "Prompty",
+              "system_metrics": {
+                "completion_tokens": 7,
+                "prompt_tokens": 23,
+                "total_tokens": 30
+              }
+            }
+          ],
+          "node_name": null,
+          "parent_id": "",
+          "id": "1965dc38-448b-42d1-ad79-d11436a19647",
+          "function": "chat",
+          "system_metrics": {
+            "completion_tokens": 7,
+            "prompt_tokens": 23,
+            "total_tokens": 30
+          }
+        }
+      ],
+      "name": "",
+      "description": "",
+      "tags": null,
+      "system_metrics": {
+        "completion_tokens": 7,
+        "prompt_tokens": 23,
+        "total_tokens": 30,
+        "duration": 11.652367
+      },
+      "result": {
+        "output": "The capital of France is Paris."
+      },
+      "upload_metrics": false,
+      "otel_trace_id": "0xd8993b26b09b7c3818783fdb363d84f7",
+      "message_format": "basic"
+    }
+  ],
+  "node_runs": []
+}
