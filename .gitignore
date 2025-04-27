@@ -55,3 +55,8 @@ venv/*_venv*
 research/teams
 
 **/code_documentation/db
+
+ffmpeg-7.1-essentials_build/
+**/ffmpeg-7.1-essentials_build.7z
+**/ffmpeg.exe
+whisper_venv
