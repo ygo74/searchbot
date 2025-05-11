@@ -27,6 +27,7 @@ MCP Servers
 ``` powershell
 docker run --rm -it -p 8000:8000 --name mcpo `
        -v c:/devel/searchbot/research/openwebui/mcp/config.json:/mcp/config.json `
+       -v "c:/devel/mcp servers/python2:/mcp_servers" `
        ghcr.io/open-webui/mcpo:main --api-key "top-secret" --config /mcp/config.json
 ```
 

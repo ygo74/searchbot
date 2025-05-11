@@ -8,4 +8,6 @@ has_children: false
 ---
 
 
+Optimizing RAG:
 
+- https://www.librechat.ai/blog/2025-04-25_optimizing-rag-performance-in-librechat

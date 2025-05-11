@@ -13,6 +13,15 @@
                 "mcp-server-time",
                 "--local-timezone=Europe/Zurich"
             ]
+        },
+        "weather": {
+            "command": "uv",
+            "args": [
+                "--directory",
+                "/mcp_servers/src",
+                "run",
+                "weather.py"
+            ]
         }
     }
 }
