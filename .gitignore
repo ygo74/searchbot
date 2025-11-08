@@ -60,3 +60,9 @@ ffmpeg-7.1-essentials_build/
 **/ffmpeg-7.1-essentials_build.7z
 **/ffmpeg.exe
 whisper_venv
+
+**/librechat/data-node
+**/librechat/images
+**/librechat/logs
+**/librechat/meili*
+**/librechat/uploads
