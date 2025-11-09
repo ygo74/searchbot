@@ -53,6 +53,30 @@ has_children: false
 
 :point_right: Use the deploy-compose to have a reverse proxy (nginx) configured with your deployment
 
+### Configuration files mapping
+
+2 files to map in the docker compose definition:
+
+- .env
+- librechat.yaml (lot of configurations are moving from .env to this file)
+
+``` yaml
+services:
+  api:
+    image: ghcr.io/danny-avila/librechat-dev-api:latest
+    container_name: LibreChat-API
+    ...
+    env_file:
+      - .env
+    ...
+    volumes:
+      - type: bind
+        source: ./librechat.yaml
+        target: /app/librechat.yaml
+      ...
+
+```
+
 ### External OIDC support
 
 If you yant to connect on an external OIDC, latest oidc lient library requires to have a HTTPS connection.
@@ -72,7 +96,6 @@ services:
       - ./ssl/keycloak.crt:/opt/keycloak/conf/server.crt  # Add your CA bundle certificates with Node
 
 ```
-
 
 # Configuration
 
