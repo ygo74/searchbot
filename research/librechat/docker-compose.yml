@@ -23,6 +23,7 @@ services:
       - MEILI_HOST=http://meilisearch:7700
       - RAG_PORT=${RAG_PORT:-8000}
       - RAG_API_URL=http://rag_api:${RAG_PORT:-8000}
+      - NODE_EXTRA_CA_CERTS=/opt/keycloak/conf/server.crt
     volumes:
       - type: bind
         source: ./librechat.yaml
@@ -30,6 +31,7 @@ services:
       - ./images:/app/client/public/images
       - ./uploads:/app/uploads
       - ./logs:/app/api/logs
+      - ./ssl/keycloak.crt:/opt/keycloak/conf/server.crt
 
   client:
     image: nginx:1.27.0-alpine
