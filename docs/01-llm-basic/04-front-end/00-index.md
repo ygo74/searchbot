@@ -68,6 +68,12 @@ Source: <https://openalternative.co/>{:target="_blank"}
 | Topic                    | Priority | OpenWebUI       | LibreChat            | Anything LLM  |
 | ------------------------ |:--------:|:---------------:|:--------------------:|:-------------:|
 |                          | 1        |                 |                      |               |
+| Websearch                | 1        |                 | :+1: :+1: (1)        |               |
+
+- **(1)** Web search experience is different betwenn standard chat and agent chat.
+
+  - Agent chat uses plugin such as Google Search / Tavily
+  - Standard chat uses other search platform
 
 ## RAG
 

@@ -21,6 +21,11 @@ has_children: false
 >
 > <https://github.com/ygo74/searchbot/tree/main/research/librechat>{:target="_blank"}
 
+{: .warning-title }
+> AI Provider specific configuration
+>
+> http://host.docker.internal:8000/v1 means that I use my own AI gateway (<https://github.com/ygo74/openai_proxy>{:target="_blank"})
+
 # Installation
 
 - Source: <https://www.librechat.ai/docs/local/docker>
@@ -162,6 +167,107 @@ services:
     OPENID_AUTO_REDIRECT=false
 
     ```
+
+## AI available providers
+
+### Remove AI providers
+
+{: .important-title }
+> Docker compose and .env file
+>
+> If you modify the .env file, you can't just restart the api service, you have to restart the full docker compose stack
+
+:point_right: Modify .env file and change the value for **ENDPOINTS**: <https://www.librechat.ai/docs/configuration/dotenv#endpoints>{:target="_blank"}.
+
+Documentation / discussion seems that we can only put blank value for the provider key but in the latests tests it doesn't work and the only way was to override the **ENDPOINTS** environment variable
+
+``` ini
+# ENDPOINTS=openAI,agents,assistants,gptPlugins,azureOpenAI,google,anthropic,bingAI,custom
+ENDPOINTS=AI Gateway,agents
+
+#============#
+# Anthropic  #
+#============#
+
+ANTHROPIC_API_KEY= # TODO Check on new version if blank value disable the provider
+
+```
+
+### Add custom AI providers
+
+:point_right: Modify librechat.yaml file to add the provider
+
+``` yaml
+endpoints:
+  custom:
+    # OpenAI Gateway
+    - name: 'AI Gateway'
+      apiKey: '${AI_GATEWAY_API_KEY}'
+      baseURL: 'http://host.docker.internal:8000/v1'
+      models:
+        default:
+          - 'gpt-4o'
+          - 'gpt-5-chat'
+        fetch: true # Dynamically fetch available models
+      titleConvo: true # Generate chat title from LLM
+      titleModel: 'gpt-4o' # Model to generate chat title from LLM
+      modelDisplayLabel: 'AI Gateway'
+
+```
+
+:point_right: Modify .env file to add your api_key
+
+``` ini
+#============#
+# AI Gateway #
+#============#
+
+AI_GATEWAY_API_KEY=sk-16AwYoZqNoVKjfMz-Mr8TeuaXk3O6JeLwPdQSAQiF0s
+
+```
+
+## RAG configuration
+
+:point_right: Modify .env file to add your embedding model access
+
+``` ini
+#==================================================#
+#                        RAG                       #
+#==================================================#
+# More info: https://www.librechat.ai/docs/configuration/rag_api
+
+RAG_OPENAI_BASEURL=http://host.docker.internal:8000/v1
+RAG_OPENAI_API_KEY=sk-16AwYoZqNoVKjfMz-Mr8TeuaXk3O6JeLwPdQSAQiF0s
+# RAG_USE_FULL_CONTEXT=
+EMBEDDINGS_PROVIDER=openai
+EMBEDDINGS_MODEL=text-embedding-3-large
+
+```
+
+## Plugins configuration
+
+### Google Search
+
+:point_right: Modify .env file to add your Google Search API configuration
+
+``` ini
+# Google
+#-----------------
+GOOGLE_SEARCH_API_KEY=
+GOOGLE_CSE_ID=
+
+```
+
+### Tavily
+
+:point_right: Modify .env file to add your Tavily API Key
+
+``` ini
+# Tavily
+#-----------------
+TAVILY_API_KEY=
+
+```
 
 # Additional resources
 
