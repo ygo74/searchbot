@@ -168,7 +168,73 @@ services:
 
     ```
 
+## Interface
+
+### Chat experiences
+
+OpenAI: Use v1/Chat/Completion endpoint
+
+{: .warning-title }
+> v1/Chat/Completion limitation
+>
+> New OpenAI endpoint is response.
+> Azure OpenAI **v1/Chat/Completion** endpoint doesn't support to upload PDF vs OpenAI. Azure OpenAI requires to use **response** endpoint to download pdf (Checked 09/11/2025)
+
+
+#### Upload providers
+
+![Chat upload menu](./assets/images/librechat/chat_upload_menu.png)
+
+1. Upload to Provider
+
+    Send file data to the provider by using v1/Chat/Completion.
+    :point_right: Should check if provider supports pdf and remove pdf type if not supported.
+
+1. Upload as Text
+
+    TODO: Need more analysis
+
+#### Tools
+
+![Chat tools selection menu](./assets/images/librechat/chat_tools_menu.png)
+
+Default tools ae:
+
+- File Search
+- Web Search
+- Code Interpreter
+- Artefacts
+- MCP Servers
+
+You can enable / disable them from the **librechat.yml** file
+
+``` yaml
+interface:
+  ...
+  fileSearch: true
+  ...
+  webSearch: true
+
+```
+
+### Answers interaction
+
+![Answers Interaction menu](./assets/images/librechat/answers_interaction_menu.png)
+
+- Text to speeh: Todo Need feature anlysis
+- Copy answer: Markdown format copy, style isn't copied to Office application
+- Modify answer: can submit the modification
+- Create new conversation from the answer
+- Feedback
+
+  - Postivie feddback: Selection from drop down
+  - Negative feedback: Selection from drop down, then need to reckick on the negative feedback to add comments
+
+
+
 ## AI available providers
+
+![AI Provider models selection menu](./assets/images/librechat/ai_providers_menu.png)
 
 ### Remove AI providers
 
@@ -196,6 +262,8 @@ ANTHROPIC_API_KEY= # TODO Check on new version if blank value disable the provid
 ### Add custom AI providers
 
 :point_right: Modify librechat.yaml file to add the provider
+
+Models are fetched only when librechat startup
 
 ``` yaml
 endpoints:
@@ -225,6 +293,15 @@ endpoints:
 AI_GATEWAY_API_KEY=sk-16AwYoZqNoVKjfMz-Mr8TeuaXk3O6JeLwPdQSAQiF0s
 
 ```
+
+## Chat Configuration
+
+Available tools:
+
+- File search: Use call chat/completion with file search function
+- Code Interpreter:
+- Artefacts
+- MCP Servers
 
 ## RAG configuration
 
