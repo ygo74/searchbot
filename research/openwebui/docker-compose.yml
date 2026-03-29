@@ -1,0 +1,126 @@
+services:
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
+    ports:
+      - 3001:8080
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    restart: unless-stopped
+    environment:
+      # Sclaing configuration
+      - WEBUI_SECRET_KEY=${WEBUI_SECRET_KEY}
+      # - NODE_EXTRA_CA_CERTS=/opt/keycloak/conf/server.crt
+
+      # Admin account configuration
+      - WEBUI_ADMIN_NAME=admin
+      - WEBUI_ADMIN_EMAIL=admin@openweubui.localhost.fr
+      - WEBUI_ADMIN_PASSWORD=${WEBUI_ADMIN_PASSWORD}
+
+      # Models configuration https://docs.openwebui.com/reference/env-configuration#openai
+      - ENABLE_OLLAMA_API=false
+      - ENABLE_OPENAI_API=true
+      - OPENAI_API_BASE_URL=http://host.docker.internal:8000/v1
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+
+      # Database configuration https://docs.openwebui.com/reference/env-configuration#database-pool
+      - DATABASE_URL=postgresql://openwebui:${DATABASE_PASSWORD}@postgres:5432/openwebui
+      - ENABLE_DB_MIGRATIONS=true
+
+      # Open telemetry configuration https://docs.openwebui.com/reference/env-configuration#opentelemetry-configuration
+      - ENABLE_OTEL=true
+      - ENABLE_OTEL_METRICS=true
+      - ENABLE_OTEL_LOGS=true
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
+      - OTEL_EXPORTER_OTLP_INSECURE=true
+
+      # Logging level https://docs.openwebui.com/reference/env-configuration#logging
+      - GLOBAL_LOG_LEVEL=DEBUG
+
+      # oAuth configuration https://docs.openwebui.com/reference/env-configuration/#openid-oidc
+      # Keycloak integration https://docs.openwebui.com/features/access-security/auth/sso/keycloak
+      - ENABLE_OAUTH_PERSISTENT_CONFIG=false
+      - WEBUI_URL=http://localhost:3001
+      - ENABLE_OAUTH_SIGNUP=true # Enable OAuth2/OIDC Login
+      - ENABLE_LOGIN_FORM =false # Disable local login form when OAuth2/OIDC is enabled
+      - DEFAULT_USER_ROLE=user
+      # Keycloak Client Information
+      - OAUTH_CLIENT_ID=open-webui
+      - OAUTH_CLIENT_SECRET=${OAUTH_CLIENT_SECRET}
+
+      # OIDC Discovery Document URL
+      - OPENID_PROVIDER_URL=http://keycloak:8080/realms/localhost_backends/.well-known/openid-configuration
+
+      # (Optional) SSO Button Label
+      - OAUTH_PROVIDER_NAME=Keycloak
+
+      # (Optional) OAuth Callback URL
+      - OPENID_REDIRECT_URI=http://localhost:3001/oauth/oidc/callback
+
+
+      # Enable group synchronization
+      - ENABLE_OAUTH_GROUP_MANAGEMENT=true
+
+      # (Optional) Enable Just-In-Time group creation
+      - ENABLE_OAUTH_GROUP_CREATION=true
+
+      # The claim key for groups in the token
+      - OAUTH_GROUP_CLAIM=groups
+
+      # Logout redirection back to Open WebUI
+      - OPENID_PROVIDER_LOGOUT_URL=http://localhost:8080/realms/localhost_backends/protocol/openid-connect/logout?client_id=open-webui&post_logout_redirect_uri=http://localhost:3001
+
+      # Websearch https://docs.openwebui.com/reference/env-configuration#web-search
+      - ENABLE_WEB_SEARCH=true
+      - ENABLE_SEARCH_QUERY_GENERATION=true
+      - WEB_SEARCH_TRUST_ENV=false  # Enables proxy set by http_proxy and https_proxy during web search content fetching.
+      - WEB_SEARCH_RESULT_COUNT=3
+      - WEB_SEARCH_CONCURRENT_REQUESTS=0
+      - WEB_LOADER_CONCURRENT_REQUESTS=10
+      - WEB_SEARCH_ENGINE=tavily
+      - TAVILY_API_KEY=${TAVILY_API_KEY}
+      - WEB_LOADER_ENGINE=tavily
+
+
+      # Redis configurationhttps://docs.openwebui.com/reference/env-configuration#redis
+      # https://docs.openwebui.com/getting-started/advanced-topics/scaling#step-2--add-redis
+      # https://docs.openwebui.com/tutorials/integrations/redis
+      - REDIS_URL=redis://redis-node-1:6379/0
+      - REDIS_CLUSTER=true
+      - REDIS_SOCKET_CONNECT_TIMEOUT=5
+      - ENABLE_WEBSOCKET_SUPPORT=true
+      - WEBSOCKET_MANAGER=redis
+      - WEBSOCKET_REDIS_URL=redis://redis-node-1:6379/0
+      - WEBSOCKET_REDIS_CLUSTER=true
+      - REDIS_KEY_PREFIX="open-webui"
+
+
+    volumes:
+      - open-webui:/app/backend/data
+
+    networks:
+      - shared-observability
+      - shared-db
+      - shared-auth
+      - shared-redis
+      - openwebui-net
+
+
+volumes:
+  open-webui:
+
+networks:
+  shared-observability:
+    external: true
+    name: shared-observability
+  shared-db:
+    external: true
+    name: shared-db
+  shared-auth:
+    external: true
+    name: shared-auth
+  shared-redis:
+    external: true
+    name: shared-redis
+  openwebui-net:
+    driver: bridge

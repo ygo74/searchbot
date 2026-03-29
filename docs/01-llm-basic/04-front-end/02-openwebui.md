@@ -7,6 +7,20 @@ nav_order: 1
 has_children: false
 ---
 
+# Installation
+
+- Doc: <https://docs.openwebui.com/getting-started/quick-start/#example-docker-composeyml>{:target="_blank"}
+- Source: <https://github.com/open-webui/open-webui>{:target="_blank"}
+
+# OAuth configuration
+
+## Keycloak integration
+
+source: <https://docs.openwebui.com/features/access-security/auth/sso/keycloak>{:target="_blank"}
+
+
+
+
 Community:
 - https://openwebui.com/prompts
 - https://openwebui.com/tools

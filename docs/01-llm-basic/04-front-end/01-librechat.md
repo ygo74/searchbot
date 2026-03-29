@@ -110,6 +110,13 @@ services:
 
 ### OIDC configuration
 
+1. Prepare Keycloak
+
+  Client Authentication: on
+  Authentication flow:
+  - Standard flow: Checked
+  - Direct qcces grants: Checked
+
 1. Prerequisite
 
     ``` bash
