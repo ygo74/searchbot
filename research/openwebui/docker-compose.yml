@@ -105,6 +105,20 @@ services:
       - shared-redis
       - openwebui-net
 
+  # https://github.com/open-webui/mcpo
+  # https://github.com/open-webui/openapi-servers
+  mcpo:
+    image: ghcr.io/open-webui/mcpo:main
+    command:
+      - --config=/mcp/config.json
+      - --api-key
+      - "top-secret"
+    volumes:
+      - ./mcp/config.json:/mcp/config.json
+
+    networks:
+      - openwebui-net
+
 
 volumes:
   open-webui:
