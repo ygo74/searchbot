@@ -8,6 +8,12 @@ services:
       - host.docker.internal:host-gateway
     restart: unless-stopped
     environment:
+      # Disable persistent config to override default configuration with environment variables
+      - ENABLE_PERSISTENT_CONFIG =false
+
+      # enable dev mode
+      - ENV=dev
+
       # Sclaing configuration
       - WEBUI_SECRET_KEY=${WEBUI_SECRET_KEY}
       # - NODE_EXTRA_CA_CERTS=/opt/keycloak/conf/server.crt
@@ -93,6 +99,19 @@ services:
       - WEBSOCKET_REDIS_URL=redis://redis-node-1:6379/0
       - WEBSOCKET_REDIS_CLUSTER=true
       - REDIS_KEY_PREFIX="open-webui"
+
+      # Document embeddings
+      # https://docs.openwebui.com/reference/env-configuration#core-configuration
+      # https://docs.openwebui.com/reference/env-configuration#embedding-engine-configuration
+      # Openai embeddings configuration
+      # - RAG_EMBEDDING_ENGINE=openai
+      # - RAG_EMBEDDING_MODEL=text-embedding-3-large
+      # - RAG_OPENAI_API_BASE_URL=http://host.docker.internal:8000/v1
+      # - RAG_OPENAI_API_KEY=${OPENAI_API_KEY}
+
+      # local embedding configuration
+      - RAG_EMBEDDING_ENGINE=
+      - RAG_EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
 
 
     volumes:

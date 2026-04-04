@@ -163,6 +163,41 @@ Redis is configured in **cluster** mode to support horizontal scaling of Open We
 | `WEBSOCKET_REDIS_CLUSTER` | `true` | Cluster mode for WebSockets |
 | `REDIS_KEY_PREFIX` | `open-webui` | Redis key prefix to avoid collisions |
 
+## Document Embeddings (RAG)
+
+Sources:
+- Core configuration: <https://docs.openwebui.com/reference/env-configuration#core-configuration>{:target="_blank"}
+- Embedding engine: <https://docs.openwebui.com/reference/env-configuration#embedding-engine-configuration>{:target="_blank"}
+
+Open WebUI supports RAG (Retrieval-Augmented Generation) by embedding uploaded documents into a vector store. Two embedding engine options are available:
+
+### Option 1: Local Embedding Model (current)
+
+The current configuration uses a local model bundled with Open WebUI. No external API call is needed — the model runs inside the container.
+
+| Variable | Value | Description |
+|---|---|---|
+| `RAG_EMBEDDING_ENGINE` | *(empty)* | Uses the local/default embedding engine |
+| `RAG_EMBEDDING_MODEL` | `sentence-transformers/all-MiniLM-L6-v2` | Sentence Transformers model downloaded and run locally |
+
+This is the simplest setup — no additional infrastructure required. The model is lightweight but less powerful than cloud-based alternatives.
+
+### Option 2: OpenAI-compatible Embedding API
+
+Alternatively, embeddings can be offloaded to an OpenAI-compatible API (e.g., Azure OpenAI, LiteLLM proxy). This option is commented out in the current docker-compose but ready to use:
+
+| Variable | Value | Description |
+|---|---|---|
+| `RAG_EMBEDDING_ENGINE` | `openai` | Uses the OpenAI embedding API |
+| `RAG_EMBEDDING_MODEL` | `text-embedding-3-large` | OpenAI embedding model name |
+| `RAG_OPENAI_API_BASE_URL` | `http://host.docker.internal:8000/v1` | Base URL of the embedding API (same proxy as chat models) |
+| `RAG_OPENAI_API_KEY` | *(secret via .env)* | API key for the embedding endpoint |
+
+This option provides higher quality embeddings (1536 or 3072 dimensions depending on the model) but requires an available API endpoint.
+
+{: .note }
+To switch between options, uncomment the desired block and comment out the other in the docker-compose file. Only one `RAG_EMBEDDING_ENGINE` value should be active at a time.
+
 ## MCP Servers (Model Context Protocol)
 
 Sources:
