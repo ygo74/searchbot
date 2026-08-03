@@ -242,6 +242,17 @@ endpoints:
       titleConvo: true
       titleModel: 'gpt-4o'
       modelDisplayLabel: 'AI Gateway'
+    - name: 'AI Solution Architect'
+      apiKey: '${AI_GATEWAY_API_KEY}'
+      baseURL: 'http://host.docker.internal:8001/v1'
+      models:
+        default:
+          - 'gpt-4o'
+          - 'gpt-5-chat'
+        fetch: false
+      titleConvo: true
+      titleModel: 'gpt-4o'
+      modelDisplayLabel: 'AI Solution Architect'
 
     # # Groq Example
     # - name: 'groq'
