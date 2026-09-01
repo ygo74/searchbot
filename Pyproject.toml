@@ -15,8 +15,8 @@ license = { text = "Yannick GOBERT" }
 
 requires-python = ">=3.8"
 dependencies = [
-    "pyautogen",
-    "pyautogen[retrievechat]"
+    "ag2",
+    "ag2[retrievechat]"
 ]
 
 [project.optional-dependencies]

@@ -19,10 +19,10 @@ has_children: false
 /usr/bin/python3 -m venv linux_venv
 source ./linux_venv/bin/activate
 
-pip install pyautogen
+pip install ag2
 pip install python-dotenv
 
-pip install pyautogen[retrievechat]
+pip install ag2[retrievechat]
 
 ## LLM Configuration
 
