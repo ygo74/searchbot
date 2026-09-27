@@ -242,17 +242,43 @@ endpoints:
       titleConvo: true
       titleModel: 'gpt-4o'
       modelDisplayLabel: 'AI Gateway'
-    - name: 'AI Solution Architect'
-      apiKey: '${AI_GATEWAY_API_KEY}'
+    - name: 'Agents Framework'
+      apiKey: 'unused'
       baseURL: 'http://host.docker.internal:8001/v1'
+      headers:
+        Authorization: "Bearer {{LIBRECHAT_OPENID_ACCESS_TOKEN}}"
+        Content-Type: 'application/json'
+        X-User-ID: '{{LIBRECHAT_USER_ID}}'
+        X-User-Email: '{{LIBRECHAT_USER_EMAIL}}'
+        X-Conversation-ID: '{{LIBRECHAT_BODY_CONVERSATIONID}}'
+        X-Parent-Message-ID: '{{LIBRECHAT_BODY_PARENTMESSAGEID}}'
+        X-Message-ID: '{{LIBRECHAT_BODY_MESSAGEID}}'
+        x-api-key: test
       models:
         default:
-          - 'gpt-4o'
-          - 'gpt-5-chat'
-        fetch: false
-      titleConvo: true
-      titleModel: 'gpt-4o'
-      modelDisplayLabel: 'AI Solution Architect'
+          - 'unused'
+        fetch: true
+      titleConvo: false
+      titleModel: 'unused'
+      modelDisplayLabel: 'Agents Framework'
+    - name: 'Mailbox agent'
+      apiKey: 'unused'
+      baseURL: 'http://host.docker.internal:8002/v1'
+      headers:
+        Content-Type: 'application/json'
+        X-User-ID: '{{LIBRECHAT_USER_ID}}'
+        X-User-Email: '{{LIBRECHAT_USER_EMAIL}}'
+        X-Conversation-ID: '{{LIBRECHAT_BODY_CONVERSATIONID}}'
+        X-Parent-Message-ID: '{{LIBRECHAT_BODY_PARENTMESSAGEID}}'
+        X-Message-ID: '{{LIBRECHAT_BODY_MESSAGEID}}'
+        x-api-key: test
+      models:
+        default:
+          - 'mail-agent'
+        fetch: true
+      titleConvo: false
+      titleModel: 'unused'
+      modelDisplayLabel: 'Mailbox agent'
 
     # # Groq Example
     # - name: 'groq'
