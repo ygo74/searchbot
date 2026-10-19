@@ -265,6 +265,7 @@ endpoints:
       apiKey: 'unused'
       baseURL: 'http://host.docker.internal:8002/v1'
       headers:
+        Authorization: "Bearer {{LIBRECHAT_OPENID_ACCESS_TOKEN}}"
         Content-Type: 'application/json'
         X-User-ID: '{{LIBRECHAT_USER_ID}}'
         X-User-Email: '{{LIBRECHAT_USER_EMAIL}}'
@@ -279,6 +280,24 @@ endpoints:
       titleConvo: false
       titleModel: 'unused'
       modelDisplayLabel: 'Mailbox agent'
+    - name: 'Wiki Agent'
+      apiKey: 'unused'
+      baseURL: 'http://host.docker.internal:8003/v1'
+      headers:
+        Content-Type: 'application/json'
+        X-User-ID: '{{LIBRECHAT_USER_ID}}'
+        X-User-Email: '{{LIBRECHAT_USER_EMAIL}}'
+        X-Conversation-ID: '{{LIBRECHAT_BODY_CONVERSATIONID}}'
+        X-Parent-Message-ID: '{{LIBRECHAT_BODY_PARENTMESSAGEID}}'
+        X-Message-ID: '{{LIBRECHAT_BODY_MESSAGEID}}'
+        x-api-key: demo-key
+      models:
+        default:
+          - 'wiki-agent'
+        fetch: true
+      titleConvo: false
+      titleModel: 'wiki-agent'
+      modelDisplayLabel: 'Wiki Agent'
 
     # # Groq Example
     # - name: 'groq'
@@ -380,16 +399,28 @@ endpoints:
 # - If 'group' matches an endpoint name (e.g., "openAI", "groq"), the spec appears nested under that endpoint
 # - If 'group' is a custom name (doesn't match any endpoint), it creates a separate collapsible section
 # - If 'group' is omitted, the spec appears as a standalone item at the top level
-# modelSpecs:
-#   list:
-#     # Example 1: Nested under an endpoint (grouped with openAI endpoint)
-#     - name: "gpt-4o"
-#       label: "GPT-4 Optimized"
-#       description: "Most capable GPT-4 model with multimodal support"
-#       group: "openAI"  # String value matching the endpoint name
-#       preset:
-#         endpoint: "openAI"
-#         model: "gpt-4o"
+modelSpecs:
+  list:
+    # Example 1: Nested under an endpoint (grouped with openAI endpoint)
+    - name: "Agents Framework"
+      label: "Agents Framework"
+      description: "Framework for managing multiple agents"
+      group: "Agentic"
+      preset:
+        endpoint: "Agents Framework"
+        model: "enterprise-rag-demo"
+        useResponsesApi: true
+        disableStreaming: false
+    - name: "Mailbox agent"
+      label: "Mailbox agent"
+      description: "Agent for managing mailbox tasks"
+      group: "Agentic"
+      preset:
+        endpoint: "Mailbox agent"
+        model: "mail-agent"
+        useResponsesApi: true
+        disableStreaming: false
+
 #
 #     # Example 2: Nested under a custom endpoint (grouped with groq endpoint)
 #     - name: "llama3-70b-8192"

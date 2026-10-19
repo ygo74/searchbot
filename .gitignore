@@ -4,6 +4,7 @@ venv/*_venv*
 **/pytorch/data/*
 **/.env
 **/.env*
+!**/.env.example
 **/.cache
 **/tmp
 **/.cache/**
