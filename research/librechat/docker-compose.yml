@@ -24,6 +24,7 @@ services:
       - RAG_PORT=${RAG_PORT:-8000}
       - RAG_API_URL=http://rag_api:${RAG_PORT:-8000}
       - NODE_EXTRA_CA_CERTS=/opt/ssl/ca.crt
+      - ADMIN_PANEL_URL=${ADMIN_PANEL_URL:-https://admin.localhost}
     volumes:
       - type: bind
         source: ./librechat.yaml
@@ -32,6 +33,27 @@ services:
       - ./uploads:/app/uploads
       - ./logs:/app/api/logs
       - ./ssl/ca.crt:/opt/ssl/ca.crt
+    networks:
+      - shared-observability
+      - shared-db
+      - shared-auth
+      - shared-redis
+      - librechat-net
+
+  admin-panel:
+    image: registry.librechat.ai/librechat-ai/librechat-admin-panel:latest
+    container_name: admin-panel
+    depends_on:
+      - api
+    restart: always
+    environment:
+      - PORT=3000
+      # Plain expansion (not :?) so `docker compose down`/`pull` still run when this is unset.
+      # The panel itself refuses to start without it; set ADMIN_PANEL_SESSION_SECRET in .env.
+      - SESSION_SECRET=${ADMIN_PANEL_SESSION_SECRET}
+      - API_SERVER_URL=http://api:3080
+      - VITE_API_BASE_URL=${DOMAIN_CLIENT:-http://localhost}
+      - SESSION_COOKIE_SECURE=${ADMIN_PANEL_SESSION_COOKIE_SECURE:-false}
     networks:
       - shared-observability
       - shared-db

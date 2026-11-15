@@ -170,6 +170,26 @@ mcpServers:
     type: streamable-http
     url: https://learn.microsoft.com/api/mcp
     timeout: 300000  # 5 minutes timeout for this server
+  mail-agents:
+    type: streamable-http
+    url: https://host.docker.internal:8002/mcp
+    timeout: 300000  # 5 minutes timeout for this server
+    # initTimeout: 30000
+    requiresOAuth: false
+
+    headers:
+      Authorization: "Bearer {{LIBRECHAT_OPENID_ACCESS_TOKEN}}"
+    # oauth:
+    #   authorization_url: "https://keycloak:8443/realms/localhost_backends//protocol/openid-connect/auth"
+    #   token_url: "https://keycloak:8443/realms/localhost_backends//protocol/openid-connect/token"
+    #   client_id: "librechat"
+    #   client_secret: "${OPENID_CLIENT_SECRET}"
+    #   redirect_uri: "https://localhosts/api/mcp/mail-agents/oauth/callback"
+    #   scope: "openid profile email"
+
+mcpSettings:
+  allowedAddresses:
+    - "host.docker.internal:8002"
 # mcpServers:
 #   everything:
 #     # type: sse # type can optionally be omitted
@@ -230,6 +250,27 @@ endpoints:
   #   capabilities: ["execute_code", "file_search", "actions", "tools"]
     # capabilities: ["file_search", "actions", "tools"]
   custom:
+    # Azure foundry
+    - name: 'Azure foundry'
+      apiKey: '${AZURE_FOUNDRY_API_KEY}'
+      iconURL: azureOpenAI
+      baseURL: 'https://${AZURE_INSTANCE_NAME}.services.ai.azure.com/openai/v1/'
+      customParams:
+        defaultParamsEndpoint: azureOpenAI
+        paramDefinitions:
+          - key: useResponsesApi
+            default: true
+      models:
+        default:
+          - 'gpt-6-luna'
+          - 'gpt-6-astra'
+          - 'gpt-6.1-terra'
+          - 'gpt-6.1-sol'
+        fetch: false
+      titleConvo: true
+      titleModel: 'gpt-6-luna'
+      titleEndpoint: "azureOpenAI"
+      modelDisplayLabel: 'Azure Foundry'
     # OpenAI Gateway
     - name: 'AI Gateway'
       apiKey: '${AI_GATEWAY_API_KEY}'
@@ -244,7 +285,7 @@ endpoints:
       modelDisplayLabel: 'AI Gateway'
     - name: 'Agents Framework'
       apiKey: 'unused'
-      baseURL: 'http://host.docker.internal:8001/v1'
+      baseURL: 'https://host.docker.internal:8001/v1'
       headers:
         Authorization: "Bearer {{LIBRECHAT_OPENID_ACCESS_TOKEN}}"
         Content-Type: 'application/json'
@@ -263,7 +304,7 @@ endpoints:
       modelDisplayLabel: 'Agents Framework'
     - name: 'Mailbox agent'
       apiKey: 'unused'
-      baseURL: 'http://host.docker.internal:8002/v1'
+      baseURL: 'https://host.docker.internal:8002/v1'
       headers:
         Authorization: "Bearer {{LIBRECHAT_OPENID_ACCESS_TOKEN}}"
         Content-Type: 'application/json'
@@ -280,6 +321,8 @@ endpoints:
       titleConvo: false
       titleModel: 'unused'
       modelDisplayLabel: 'Mailbox agent'
+      addParams:
+        useResponsesApi: true
     - name: 'Wiki Agent'
       apiKey: 'unused'
       baseURL: 'http://host.docker.internal:8003/v1'
@@ -291,6 +334,12 @@ endpoints:
         X-Parent-Message-ID: '{{LIBRECHAT_BODY_PARENTMESSAGEID}}'
         X-Message-ID: '{{LIBRECHAT_BODY_MESSAGEID}}'
         x-api-key: demo-key
+        x-confluence-pat: '{{MY_SERVICE_API_KEY}}'
+      customUserVars:
+        MY_SERVICE_API_KEY:
+          title: 'My Service API Key'
+          description: "Enter your personal API key for the service. You can generate one at <a href='https://myservice.example.com/developer/keys' target='_blank'>Service Developer Portal</a>."
+          sensitive: true
       models:
         default:
           - 'wiki-agent'
@@ -400,17 +449,21 @@ endpoints:
 # - If 'group' is a custom name (doesn't match any endpoint), it creates a separate collapsible section
 # - If 'group' is omitted, the spec appears as a standalone item at the top level
 modelSpecs:
+  addedEndpoints:
+    - Mailbox agent
+    - Azure foundry
+    - agents
   list:
     # Example 1: Nested under an endpoint (grouped with openAI endpoint)
-    - name: "Agents Framework"
-      label: "Agents Framework"
-      description: "Framework for managing multiple agents"
-      group: "Agentic"
-      preset:
-        endpoint: "Agents Framework"
-        model: "enterprise-rag-demo"
-        useResponsesApi: true
-        disableStreaming: false
+    # - name: "Agents Framework"
+    #   label: "Agents Framework"
+    #   description: "Framework for managing multiple agents"
+    #   group: "Agentic"
+    #   preset:
+    #     endpoint: "Agents Framework"
+    #     model: "enterprise-rag-demo"
+    #     useResponsesApi: true
+    #     disableStreaming: false
     - name: "Mailbox agent"
       label: "Mailbox agent"
       description: "Agent for managing mailbox tasks"
